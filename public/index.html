@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programming Chat</title>
+    <script src="js/signin.js"></script>
+</head>
+<body>
+    <div id="status"></div>
+    <h3>Native sign in</h3>
+    <form action="form">
+        <h5>Email</h5>
+        <input type="text" name="emailin" id="emailin" placeholder="email" required>
+        <h5>Password</h5>
+        <input type="text" name="passwordin" id="passwordin" placeholder="password" required>
+    </form>
+    <button type="button" name="button" onclick="signInBtn();">Submit</button>
+
+    <h3>Native sign up</h3>
+    <form action="sign/signup" name="form2" method = "POST" enctype="multipart/form-data">
+        <h5>Name</h5>
+        <input type="text" name="nameup" id="nameup" placeholder="name" required>
+        <h5>Email</h5>
+        <input type="text" name="emailup" id="emailup" placeholder="email" required>
+        <h5>Password</h5>
+        <input type="text" name="passwordup" id="passwordup" placeholder="password" required>
+    </form>
+    <button type="button" name="button" onclick="signUpBtn()">Submit</button>
+
+    <h3>facebook sign in/up</h3>
+    <div class="fb-login-button" data-size="large" data-button-type="login_with" data-layout="rounded" data-auto-logout-link="true" data-use-continue-as="false" data-width="" onlogin="checkLoginState();"></div>    
+    <h3>Google sign in/up</h3>
+    <div class="g-signin2" data-onsuccess="googleSignIn"></div>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="530828462533-qb3aoma27i7dpnfmql451jltg7f6395n.apps.googleusercontent.com">
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v9.0&appId=412468749922091&autoLogAppEvents=1" nonce="4hZjNL0T"></script></body>
+</html>
