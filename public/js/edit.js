@@ -8,7 +8,7 @@ function appendText(text, insertPosition){
     inputTextDiv.innerText = text;
     inputTextDiv.id = `element`;
     inputTextDiv.classList.add("newText");
-    inputTextDiv.style = "font-size:" + getCurrentStatus()
+    inputTextDiv.style = "font-size:" + getCurrentStatus();
     console.log(getCurrentStatus())
     allContentDiv.insertBefore(inputTextDiv, insertPosition)
 }
@@ -26,7 +26,7 @@ function getCurrentStatus(){
             fontSize = "80%"
             break;
         default:
-            fontSize = "50%"
+            fontSize = "50%;background-color: #D3D3D3;"
             break;
     }
     return fontSize;
@@ -39,7 +39,7 @@ function modifyText(originalText){
     newForm.id = "newForm";
     newTextArea.rows = "10";
     newTextArea.cols = "30";
-    newTextArea.style = "width:900px;height:30px;";
+    newTextArea.style = "font-size:" + getCurrentStatus()
     newTextArea.innerText = originalText;
     newFormButton.innerText = "submit";
     newForm.appendChild(newTextArea)
@@ -49,7 +49,7 @@ function modifyText(originalText){
         const text = e.target.innerText;
         if(text != ""){
             appendText(newTextArea.value, newForm);
-            originalFormForm.style = "width:900px;height:30px;display:block";
+            originalFormForm.style = "display:block";
             newForm.remove();
         }
     });
@@ -74,3 +74,11 @@ allContentDiv.addEventListener("click", (e) => {
   
     }
 });
+
+textareaContent.addEventListener("click", (e) => {
+    console.log(e.target)
+    e.target.style = "font-size:" + getCurrentStatus()
+})
+
+
+
