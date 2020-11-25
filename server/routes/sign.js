@@ -31,20 +31,6 @@ const checkThirdPartSignInStatus = async (req) => {
     return {stat:"Welcome to programing chatting!", user: payLoad}
 }
 
-const checkGoogleSignInStatus = async (req) => {
-    let url = 'https://oauth2.googleapis.com/tokeninfo?id_token=' + req.body.access_token;
-    let userInfo = await fetch(url).then(result => {return result.json()})
-    let dbResult = await signDB.checkUserExistence(userInfo.email)
-    let payLoad;
-    if(dbResult.length > 0){
-        payLoad = dbResult[0];
-    }else{
-        await signDB.createUser([userInfo.name, userInfo.email, "na", "google"])
-        let updateDBResult = await signDB.checkUserExistence(userInfo.email)
-        payLoad = updateDBResult[0];
-    }
-    return {stat:"Welcome to programing chatting!", user: payLoad}
-}
 
 const checkNativeSignIn = async (req) => {
     let {email, password}=req.body;

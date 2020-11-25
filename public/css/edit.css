@@ -1,0 +1,25 @@
+#catagory{
+    margin-left: 20px;
+}
+
+
+#title{
+    font-size:200%;
+    font-weight:bold;
+    margin-left: 20px;
+}
+
+
+form{
+    margin-left: 20px;
+    border-radius:5px;
+    margin: 20px;
+}
+
+.newText{
+    background-color: #D3D3D3;
+    width: 900px;
+    border:1px solid  #D3D3D3;
+    border-radius:5px;
+    margin: 20px;
+}
