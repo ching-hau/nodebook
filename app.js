@@ -17,12 +17,10 @@ app.use(bodyParser.json());
 
 
 const signRouter = require("./server/routes/sign")
+const childprocessRouter = require("./server/routes/childprocess")
 
 app.use("/sign", signRouter)
-
-
-
-
+app.use("/childprocess", childprocessRouter)
 
 app.listen(port, () => {
     console.log(`Programming Chat is running on port ${port}!`)

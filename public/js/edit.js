@@ -4,33 +4,53 @@ const allContentDiv = document.querySelector(".allContent");
 const textareaContent = document.querySelector("textarea");
 
 function appendText(text, insertPosition){
-    const inputTextDiv = document.createElement("div");
+    //div -li
+    console.log(document.querySelector("#catagory").value)
+    const inputTextDiv = document.createElement("li");
     inputTextDiv.innerText = text;
     inputTextDiv.id = `element`;
     inputTextDiv.classList.add("newText");
-    inputTextDiv.style = "font-size:" + getCurrentStatus();
-    console.log(getCurrentStatus())
+    addCodingClass(inputTextDiv)
+    inputTextDiv.style = "font-size:" + getCurrentStyle();
+    //console.log(inputTextDiv.style)
+    //if(inputTextDiv.style["1"] == "background-color"){
+    //    inputTextDiv.classList.add("code");
+    //}
+    inputTextDiv.draggable = "true";
+    inputTextDiv.addEventListener('dragstart', dragStart);
+    inputTextDiv.addEventListener('drop', dropped);
+    inputTextDiv.addEventListener('dragenter', cancelDefault);
+    inputTextDiv.addEventListener('dragover', cancelDefault);
     allContentDiv.insertBefore(inputTextDiv, insertPosition)
 }
-function getCurrentStatus(){
+
+function getCurrentStyle(){
     const currentStatus = document.querySelector("#catagory").value;
     let fontSize;
     switch(currentStatus){
         case "title":
-            fontSize = "150%;font-weight:bold;"
+            fontSize = "130%;font-weight:bold;"
             break;
         case "subTitle":
             fontSize = "120%"
             break;
         case "text":
-            fontSize = "80%"
+            fontSize = "100%"
             break;
         default:
-            fontSize = "50%;background-color: #D3D3D3;"
+            fontSize = "90%;background-color: #D3D3D3;"
             break;
     }
     return fontSize;
 }
+
+function addCodingClass(inputTextDiv){
+    const currentStatus = document.querySelector("#catagory").value;
+    if(currentStatus == "coding"){
+        inputTextDiv.classList.add("coding");
+    }
+}
+
 
 function modifyText(originalText){
     const newForm = document.createElement("form");
@@ -39,9 +59,11 @@ function modifyText(originalText){
     newForm.id = "newForm";
     newTextArea.rows = "10";
     newTextArea.cols = "30";
-    newTextArea.style = "font-size:" + getCurrentStatus()
+    newTextArea.style = "font-size:" + getCurrentStyle()
     newTextArea.innerText = originalText;
-    newFormButton.innerText = "submit";
+    newFormButton.innerText = "ENTER";
+    newFormButton.classList.add("myButton");
+    newFormButton.id = "enter";
     newForm.appendChild(newTextArea)
     newForm.appendChild(newFormButton)
     newForm.addEventListener("submit", (e) => {
@@ -66,8 +88,8 @@ originalFormForm.addEventListener("submit", (e) => {
 });
 
 allContentDiv.addEventListener("click", (e) => {
-    if((e.target.tagName == "DIV")&&(e.target.id=="element")){
-        console.log(e.target.id)
+    let allButtonCount = document.querySelectorAll("#enter").length
+    if((e.target.tagName == "LI")&&(e.target.id=="element")&&(allButtonCount==1)){
         let originalText = e.target.innerText;
         originalFormForm.style.display = "none"
         e.target.replaceWith(modifyText(originalText))
@@ -76,9 +98,30 @@ allContentDiv.addEventListener("click", (e) => {
 });
 
 textareaContent.addEventListener("click", (e) => {
-    console.log(e.target)
-    e.target.style = "font-size:" + getCurrentStatus()
+    e.target.style = "font-size:" + getCurrentStyle()
 })
 
 
+function dragStart(e){
+    let allItem = document.querySelectorAll('#items-list > li')
+    let index = Array.from(allItem).indexOf(e.target)
+    e.dataTransfer.setData('text/plain', index);
+}
 
+function dropped(e){
+    cancelDefault(e)
+    let allItem = document.querySelectorAll('#items-list > li')
+    let allSet = document.querySelector('#items-list')
+    let oldIndex = e.dataTransfer.getData('text/plain')
+    let newIndex = Array.from(allItem).indexOf(e.target)
+    if(newIndex != oldIndex){
+        allItem[oldIndex].remove()
+        allSet.insertBefore(allItem[oldIndex], allItem[newIndex])
+    }
+}
+  
+function cancelDefault(e){
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
+}
