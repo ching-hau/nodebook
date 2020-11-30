@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const childProcess = require('child_process');
-const { spawn } = require("child_process")
 const fs = require('fs');
 const he = require('he');
 
@@ -64,14 +63,11 @@ const deleteFile = (path) => {
 
 router.post("/test", async (req, res) => {
     let {content, file} = req.body;
+    console.log(content)
     let path = `OtherCode/${file}.js`
     await writeFile(content, path);
     let result = await runChildProcess(path);
     res.status(200).send({result: result})
 })
-
-runChildProcess("OtherCode/kk.js")
-
-
 
 module.exports = router;
