@@ -15,9 +15,10 @@ const runChildProcess = (path) => {
         let command = "node " + path;
         let workerProcess = childProcess.exec(command);
         let output = ''
+        let buf = new Buffer.alloc(256)
         workerProcess.on("exit", (data) => {
             console.log("exit the code")
-            deleteFile(path);
+            //deleteFile(path);
         });
         workerProcess.stdout.on("data", (data) => {
             output += data;
@@ -36,7 +37,7 @@ const runChildProcess = (path) => {
     });
 }
 
-// runChildProcess("OtherCode/kk.js").then(result=> {console.log(result)})
+//runChildProcess("OtherCode/kkk.js").then(result=> {console.log(result)})
 
 const writeFile = (content, path) => {
     return new Promise((resolve, reject) => {

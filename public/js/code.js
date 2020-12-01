@@ -17,7 +17,6 @@ async function runCode(){
         headers:{'Content-Type': 'application/json'},
         body: JSON.stringify(data)
     }
-    
     let result = await fetch("/childprocess/test", config)
     .then(res => {
         if(res.status == 200){
