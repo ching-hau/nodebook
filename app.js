@@ -7,8 +7,9 @@ const io = require('socket.io')(server);
 const dbConfig = require("./server/db/dbConfig");
 const bodyParser= require('body-parser');
 
-const socketChat = require('./server/controllers/chatting');
-io.on('connection', socketChat);
+const socketChild = require('./server/controllers/socketChild');
+// const socketChat = require('./server/controllers/chatting');
+io.on('connection', socketChild);
 const con = dbConfig.sqlCon;
 const port = process.env.PORT
 

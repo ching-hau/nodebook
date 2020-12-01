@@ -31,9 +31,7 @@ const socketChat = (socket) => {
         console.log("test for socket io")
         let result = await goForSocket2();
         socket.emit("test2", result);
-    })
+    });
 }
-
-
 
 module.exports = socketChat;

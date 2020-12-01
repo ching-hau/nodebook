@@ -1,8 +1,8 @@
+const socket = io();
 const originalFormForm = document.querySelector("#originalForm");
 const newFormForm = document.querySelector("#newForm");
 const allContentDiv = document.querySelector(".allContent");
 const textareaContent = document.querySelector("textarea");
-let i =0;
 
 function appendText(text, insertPosition){
     const inputTextDiv = document.createElement("li");
@@ -46,7 +46,6 @@ function addCodingClass(inputTextDiv){
         inputTextDiv.classList.add("coding");
     }
 }
-
 
 function modifyText(originalText){
     const newForm = document.createElement("form");
@@ -131,68 +130,6 @@ function cancelDefault(e){
     return false;
 }
 
-// Run code button
-function insertCodeResult(result){
-    let codeResultDiv = document.querySelector(".codeResult");
-    codeResultDiv.innerText = result.result;
-}
-
-function getCode(){
-    let allCodeLi = document.querySelectorAll("li.coding")
-    let allCode = ""
-    allCodeLi.forEach(element => allCode+=element.innerText)
-    return {"content": allCode.toString().replace(/RUN/g,""), "file": Date.now().toString()}
-}
-
-async function runCode(){
-    let data = getCode()
-    let config = {
-        method: "POST",
-        headers:{'Content-Type': 'application/json'},
-        body: JSON.stringify(data)
-    }
-    let result = await fetch("/childprocess/test", config)
-    .then(res => {
-        if(res.status == 200){
-            return res.json()
-        }else{
-            return {result:"fail"}
-        }
-    })
-    insertCodeResult(result)
-}
-
-function getCurrentCode(e){
-    let allCodingButton = document.querySelectorAll("button.coding");
-    let allCodingLi = document.querySelectorAll("li.coding");
-    let currentBtnIndex = Array.from(allCodingButton).indexOf(e.target);
-    console.log("get code")
-    let allCode = "";
-    for(let i = 0; i <= currentBtnIndex; i++){
-        allCode += allCodingLi[i].innerText;
-    }
-    return {"content": allCode.toString().replace(/RUN/g,""), "file": Date.now().toString()}
-}
-
-async function runSepCode(e){
-    console.log("run code")
-    let data = getCurrentCode(e)
-    let config = {
-        method: "POST",
-        headers:{'Content-Type': 'application/json'},
-        body: JSON.stringify(data)
-    }
-    let result = await fetch("/childprocess/test", config)
-    .then(res => {
-        if(res.status == 200){
-            return res.json()
-        }else{
-            return {result:"fail"}
-        }
-    })
-    insertCodeResult(result)
-}
-
 function addCodingClass(inputTextDiv){
     const currentStatus = document.querySelector("#catagory").value;
     if(currentStatus == "coding"){
@@ -208,9 +145,55 @@ function addRunButton(div1, currentElement){
         codingButton.classList.add("myButton");
         codingButton.innerText = "RUN";
         //codingButton.onclick = () => {runSepCode()}
-        codingButton.addEventListener("click", (e) => {runSepCode(e)})
+        codingButton.addEventListener("click", (e) => {socketRunCodeSep(e)})
         div1.append(codingButton)
     }
 }
 
-console
+function getCode(){
+    let allCodeLi = document.querySelectorAll("li.coding")
+    let allCode = ""
+    allCodeLi.forEach(element => allCode+=element.innerText)
+    return {"content": allCode.toString().replace(/RUN/g,""), "file": Date.now().toString()}
+}
+
+function getCurrentCode(e){
+    let allCodingButton = document.querySelectorAll("button.coding");
+    let allCodingLi = document.querySelectorAll("li.coding");
+    let currentBtnIndex = Array.from(allCodingButton).indexOf(e.target);
+    console.log("get code")
+    let allCode = "";
+    for(let i = 0; i <= currentBtnIndex; i++){
+        allCode += allCodingLi[i].innerText;
+    }
+    return {"content": allCode.toString().replace(/RUN/g,""), "file": Date.now().toString()}
+}
+
+function insertSocketResult(result){
+    let codeResultDiv = document.querySelector(".codeResult");
+    codeResultDiv.innerText = result;
+}
+
+function socketRunCode(){
+    console.log("socket run code");
+    let data = getCode();
+    socket.emit("send code", data)
+    insertSocketResult("");
+}
+
+function socketRunCodeSep(e){
+    console.log("socket run code separately");
+    let data = getCurrentCode(e);
+    socket.emit("send code", data)
+    insertSocketResult("");
+}
+
+socket.on("send reult", (data) => {
+    console.log(data);
+    insertSocketResult(data);
+});
+
+// function createCodeResultDiv(){
+//     const codeResultDiv = document.createElement("div");
+    
+// }

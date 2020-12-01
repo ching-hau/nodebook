@@ -13,11 +13,16 @@ const runChildProcess = (path) => {
         let command = "node " + path;
         let workerProcess = childProcess.exec(command);
         let output = ''
-        let buf = new Buffer.alloc(256)
-        workerProcess.on("exit", (data) => {
-            console.log("exit the code")
+        setTimeout(()=> {
+            console.log("start to kill");
+            workerProcess.kill();
             deleteFile(path);
-        });
+            reject("This code run too long");
+        }, 2000)
+        // workerProcess.on("exit", (data) => {
+        //     console.log("exit the code")
+        //     //deleteFile(path);
+        // });
         workerProcess.stdout.on("data", (data) => {
             output += data;
         });
@@ -27,10 +32,6 @@ const runChildProcess = (path) => {
         workerProcess.stdout.on("end", () => {
             resolve(output);
         });
-        setTimeout(()=> {
-            console.log("start to kill");
-            workerProcess.kill()
-        }, 2000)
     });
 }
 
