@@ -1,11 +1,17 @@
-const io = require("socket.io")(server);
+function goForSocket(){
+    console.log("name")
+}
 
-const users = {}
-const rooms = {}
+const goForSocket2 = () => {
+    return new Promise((resolve, reject) => {
+        resolve("Finsh Promise goSocket2");
+    })
+}
 
-io.on("connection", (socket) => {
+const socketChat = (socket) => {
+    const users = {}
+    const rooms = {}
     socket.on("new-room", (room)=>{
-        
         rooms[socket.id] = room;
     })
     socket.on("new-user", (name) => {
@@ -21,6 +27,13 @@ io.on("connection", (socket) => {
         socket.to(rooms[socket.id]).emit("user-disconnected", users[socket.id]);
         delete users[socket.id];
     })
-});
+    socket.on("test", async () => {
+        console.log("test for socket io")
+        let result = await goForSocket2();
+        socket.emit("test2", result);
+    })
+}
 
-module.exports = router;
+
+
+module.exports = socketChat;

@@ -10,6 +10,7 @@ function appendMessage(message){
     messagesAll.append(messageElement)
 }
 
+
 const room = prompt("Which room do you want to join?");
 socket.emit("new-room", room);
 
@@ -37,3 +38,9 @@ messageForm.addEventListener('submit', (e) => {
         messageInput.value = '';
     }
 });
+
+function testSocket(){
+    socket.emit("test");
+}
+
+socket.on("test2", (data) => {appendMessage(data)})
