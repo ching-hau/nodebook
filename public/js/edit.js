@@ -3,6 +3,7 @@ const originalFormForm = document.querySelector("#originalForm");
 const newFormForm = document.querySelector("#newForm");
 const allContentDiv = document.querySelector(".allContent");
 const textareaContent = document.querySelector("textarea");
+let i = 0;
 
 function appendText(text, insertPosition){
     const inputTextDiv = document.createElement("li");
@@ -193,7 +194,10 @@ socket.on("send reult", (data) => {
     insertSocketResult(data);
 });
 
-// function createCodeResultDiv(){
-//     const codeResultDiv = document.createElement("div");
+function createCodeResultDiv(){
+    const codeResultDiv = document.createElement("div");
+    codeResultDiv.id = `codeResult${i}`;
+    codeResultDiv.classList.add("codeResult");
+    i++
     
-// }
+}

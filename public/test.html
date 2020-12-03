@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="css/edit.css" media="all" />
-    <title>NODEBOOK</title>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/test.css" media="all" />
+    <title>Test</title>
+    
 </head>
 <body>
     <div id="title">NODEBOOK</div>
@@ -17,15 +17,15 @@
             <option value="coding">Code</option>
           </select>
     </div>
-    <div class="allContent" id="items-list" >
-        <form id="originalForm">
+    <div id="allMovable">
+        <form id="inputForm">
             <textarea rows="10" cols="30"></textarea>
-            <button id="enter"class="myButton">ENTER</button>
+            <button id="enterBtn"class="myButton">ENTER</button>
         </form>
     </div>
     <div id="codeTitle">Code Result<button id="runCode" class="myButton" onclick="socketRunCode()">RUNALL</button></div>
     <div class="codeResult"></div>
     <script src="socket.io/socket.io.js"></script>
-    <script src="js/edit.js"></script>
+    <script src = "js/test.js"></script>
 </body>
 </html>

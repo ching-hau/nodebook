@@ -16,9 +16,9 @@ const runChildProcess = (path) => {
         setTimeout(()=> {
             console.log("start to kill");
             workerProcess.kill();
-            deleteFile(path);
+            //deleteFile(path);
             reject("This code run too long");
-        }, 2000)
+        }, 5000)
         // workerProcess.on("exit", (data) => {
         //     console.log("exit the code")
         //     //deleteFile(path);
