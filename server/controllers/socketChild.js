@@ -5,8 +5,8 @@ const socketChild = (socket) => {
         let {content1, content2, file1, file2, index} = data;
         
         console.log(data)
-        let path1 = `/Users/nickchu/Desktop/nodebookCode/${file1}.js`;
-        let path2 = `/Users/nickchu/Desktop/nodebookCode/${file2}.js`;
+        let path1 = process.env.PROCESS_PATH +`${file1}.js`;
+        let path2 = process.env.PROCESS_PATH +`${file2}.js`;
         await cp.writeFile(content1, path1);
         await cp.writeFile(content2, path2);
         try{
