@@ -59,12 +59,13 @@ const runChildProcess = (path) => {
         setTimeout(()=> {
             console.log("start to kill");
             workerProcess.kill();
-            console.log(`This is exit reject code: ${workerProcess.exitCode}`)
+            workerProcess.exitCode = 1;
+            console.log(`${path} exit reject code: ${workerProcess.exitCode}`)
             reject("This code run too long");
-        }, 2000)
+        }, 10000)
         workerProcess.on("exit", () => {
             console.log("exit the code successfully")
-            console.log(`${path} exit resolve code: ${workerProcess.exitCode}`)
+            console.log(`${path} exit resolve code: ${workerProcess.exitCode} in exit`)
 
             //deleteFile(path);
         });
@@ -75,7 +76,7 @@ const runChildProcess = (path) => {
             resolve(extractError(data));
         });
         workerProcess.stdout.on("end", () => {
-            console.log(`This is exit resolve code: ${workerProcess.exitCode}`)
+            console.log(`${path} exit resolve code: ${workerProcess.exitCode} in end`)
             resolve(output);
         });
     });
