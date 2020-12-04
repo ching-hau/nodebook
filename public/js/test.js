@@ -95,7 +95,8 @@ function dragStart(e){
 }
 
 function dropped(e){
-    cancelDefault(e)
+    cancelDefault(e);
+    let allCodeResult = document.querySelectorAll("#sepResult")
     let allItem = document.querySelectorAll(".movable");
     let allSet = document.querySelector('#allMovable');
     let droppedDiv = getCurrentDiv(allItem, e);
@@ -104,13 +105,16 @@ function dropped(e){
     if(newIndex == (allItem.length-1)){
         console.log("it is here")
         allSet.insertBefore(allItem[oldIndex], originalInputForm);
+        allCodeResult.forEach(element => element.remove())
     }
     else if(newIndex > oldIndex){
         allItem[oldIndex].remove();
         allSet.insertBefore(allItem[oldIndex], allItem[newIndex+1]);
+        allCodeResult.forEach(element => element.remove())
     }else if(newIndex < oldIndex){
         allItem[oldIndex].remove();
         allSet.insertBefore(allItem[oldIndex], allItem[newIndex]);
+        allCodeResult.forEach(element => element.remove())
     }
 }
 
@@ -170,22 +174,22 @@ function getCode(){
     return {"content": allCode.toString(), "file": Date.now().toString()}
 }
 
-function getCurrentCode2(e){
-    let allCodingButton = document.querySelectorAll("button.coding");
-    let allCodingLi = document.querySelectorAll("p.coding");
-    let currentBtnIndex = Array.from(allCodingButton).indexOf(e.target);
-    console.log("here")
-    console.log(e.target.previousSibling.id == "sepResult")
-    if(e.target.previousSibling.id == "sepResult"){
-        e.target.previousSibling.remove();
-    }
-    console.log("get code")
-    let allCode = "";
-    for(let i = 0; i <= currentBtnIndex; i++){
-        allCode += allCodingLi[i].innerText;
-    }
-    return {"content": allCode.toString(), "file1": Date.now().toString(), "index": currentBtnIndex}
-}
+// function getCurrentCode2(e){
+//     let allCodingButton = document.querySelectorAll("button.coding");
+//     let allCodingLi = document.querySelectorAll("p.coding");
+//     let currentBtnIndex = Array.from(allCodingButton).indexOf(e.target);
+//     console.log("here")
+//     console.log(e.target.previousSibling.id == "sepResult")
+//     if(e.target.previousSibling.id == "sepResult"){
+//         e.target.previousSibling.remove();
+//     }
+//     console.log("get code")
+//     let allCode = "";
+//     for(let i = 0; i <= currentBtnIndex; i++){
+//         allCode += allCodingLi[i].innerText;
+//     }
+//     return {"content": allCode.toString(), "file1": Date.now().toString(), "index": currentBtnIndex}
+// }
 
 function getCurrentCode(e){
     let allCodingButton = document.querySelectorAll("button.coding");
