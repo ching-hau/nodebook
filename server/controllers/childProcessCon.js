@@ -64,6 +64,8 @@ const runChildProcess = (path) => {
         }, 2000)
         workerProcess.on("exit", () => {
             console.log("exit the code successfully")
+            console.log(`${path} exit resolve code: ${workerProcess.exitCode}`)
+
             //deleteFile(path);
         });
         workerProcess.stdout.on("data", (data) => {
