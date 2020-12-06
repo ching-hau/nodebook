@@ -1,0 +1,20 @@
+* {
+    margin-top: 20px;
+    margin-left: 30px;
+}
+
+.movable > p{
+    margin-left: 2px;
+} 
+
+textarea{
+    resize: none !important;
+    overflow-y:hidden !important;
+    height: auto;
+    background-color: #D3D3D3 !important;
+}
+
+button{
+    margin-top: 10px !important;
+    margin-left: 900px !important;
+}

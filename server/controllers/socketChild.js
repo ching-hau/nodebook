@@ -19,6 +19,7 @@ const socketChild = (socket) => {
             }else{
                 result = allResult[0].toString();
             }
+            console.log(result)
             socket.emit("send reult", {result: result, index: index})
 
         } catch(err){

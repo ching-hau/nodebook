@@ -17,35 +17,6 @@ function extractError(err){
     }
 }
 
-const runTestChidProcess = (path) => {
-    return new Promise((resolve, reject) => {
-        console.log("Run test Child Process");
-        let command = `node ` + path + " > /Users/nickchu/Desktop/nodebookCode/aaa.txt";
-        let output = '';
-        let testChild = childProcess.exec(command);
-        console.log(`initial exitcode is ${testChild.exitCode}`)
-        console.log(`initial PID is ${testChild.pid}`)
-        setTimeout(() => {
-            console.log("start to kill test child")
-            testChild.exitCode = 1;
-            //process.kill(`${testChild.pid}+1`)
-            console.log(`exitcode after settime out is ${testChild.exitCode}`)
-        }, 1000);
-        testChild.on("exit", () => {
-            console.log("Exit the code successfully");
-            resolve(testChild.exitCode);
-        });
-        testChild.stdout.on("data", (data) => {
-            output += data;
-        });
-        testChild.stdout.on("end", (data) => {
-            resolve("End the process " + testChild.exitCode)
-        });
-
-
-    })
-}
-
 // let path = `/Users/nickchu/Desktop/nodebookCode/aaa.js`
 
 // runTestChidProcess(path).then(result => {console.log(result)})
@@ -62,12 +33,11 @@ const runChildProcess = (path) => {
             workerProcess.exitCode = 1;
             console.log(`${path} exit reject code: ${workerProcess.exitCode}`)
             reject("This code run too long");
-        }, 3000)
+        }, 2000)
         workerProcess.on("exit", () => {
             console.log("exit the code successfully")
             console.log(`${path} exit resolve code: ${workerProcess.exitCode} in exit`)
-
-            //deleteFile(path);
+            deleteFile(path);
         });
         workerProcess.stdout.on("data", (data) => {
             output += data;

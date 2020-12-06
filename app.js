@@ -19,9 +19,12 @@ app.use(bodyParser.json());
 
 const signRouter = require("./server/routes/sign")
 const childprocessRouter = require("./server/routes/childprocess")
+const fileRouter = require("./server/routes/file")
 
-app.use("/sign", signRouter)
-app.use("/childprocess", childprocessRouter)
+
+app.use("/sign", signRouter);
+app.use("/childprocess", childprocessRouter);
+app.use("/file", fileRouter);
 
 //io.on('connection', socketListener);
 server.listen(port, () => {

@@ -1,0 +1,68 @@
+#motherDiv{
+    margin-left: 20%;
+    margin-top: 20px !important;
+}
+
+#textType{
+    margin-left: 17%;
+    margin-top: 20px !important;
+}
+
+#title{
+    width:953px !important;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+textarea{
+    resize: none !important;
+    overflow-y:hidden !important;
+    height: auto;
+}
+
+.coding {
+    padding: 15px !important;
+    border-radius:2px;
+}
+
+.codingBtn{
+    width:953px !important;
+    margin-top: 3px;
+}
+
+.movable > p{
+    margin-left: 0px;
+    padding-left: 12px;
+    padding-bottom: 5px;
+    margin-bottom: 1px !important;
+    width:953px !important;
+}
+
+.movable > form{
+    margin-left: 0px;
+}
+
+#sepResult{
+    margin-left: 0px !important;
+    border-radius: 2px;
+    border:1px #000000 solid;
+    padding: 10px;
+    font-size: 90%;
+    width:953px !important;
+}
+
+/* .enter{
+    margin-left: 100%;
+} */
+
+.form-control-v2{
+    width:91% !important;
+    display: inline !important;
+    vertical-align: bottom;
+}
+
+/* .inline-control{
+    width:953px !important;
+    display: inline !important;
+    vertical-align: bottom;
+} */

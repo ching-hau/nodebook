@@ -4,28 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="css/edit.css" media="all" />
-    <title>NODEBOOK</title>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <title>Project</title>
+    
 </head>
 <body>
-    <div id="title">NODEBOOK</div>
+    <div class="header">
+        <button class="myButton" onclick="save();">SAVE</button>
+    </div>
+    
     <div>
         <select name="catagory" id="catagory" >
-            <option value="title">Title</option>
-            <option value="subTitle">Sub-Title</option>
-            <option value="text">Text</option>
+            <option value="title">L-Text</option>
+            <option value="subTitle">M-Text</option>
+            <option value="text">S-Text</option>
             <option value="coding">Code</option>
           </select>
     </div>
-    <div class="allContent" id="items-list" >
-        <form id="originalForm">
-            <textarea rows="10" cols="30"></textarea>
-            <button id="enter"class="myButton">ENTER</button>
-        </form>
+    <div id="motherDiv">
+        <div id="title">
+            <form id="titleForm">
+                <input type="text" id="titleInput" placeholder="Name of this note.">
+            </form>
+        </div>
+        <div id="allMovable">
+            <form id="inputForm">
+                <textarea rows="10" cols="30" id="inputArea"></textarea>
+                <button id="enterBtn"class="myButton">ENTER</button>
+            </form>
+        </div>
     </div>
-    <div id="codeTitle">Code Result<button id="runCode" class="myButton" onclick="socketRunCode()">RUNALL</button></div>
-    <div class="codeResult"></div>
     <script src="socket.io/socket.io.js"></script>
-    <script src="js/edit.js"></script>
+    <script src = "js/edit.js"></script>
+    <script src = "js/handleFile.js"></script>
 </body>
 </html>
