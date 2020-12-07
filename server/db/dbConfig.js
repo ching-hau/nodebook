@@ -9,6 +9,10 @@ const con = mysql.createPool({
     connectionLimit: process.env.LIMIT,
     waitForConnections: process.env.WAITFORCONNECTIONS
 })
+
+
+
+
 con.getConnection((err, connection) =>{
     if (err) throw err;
     console.log("connecting to mysql by pool successfully!")

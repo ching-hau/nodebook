@@ -1,3 +1,7 @@
+.header{
+    margin-right: 10px;
+}
+
 #motherDiv{
     margin-left: 20%;
     margin-top: 20px !important;
@@ -9,7 +13,7 @@
 }
 
 #title{
-    width:953px !important;
+    width:60% !important;
     margin-top: 10px;
     margin-bottom: 10px;
 }
@@ -17,7 +21,7 @@
 textarea{
     resize: none !important;
     overflow-y:hidden !important;
-    height: auto;
+    /* height: auto; */
 }
 
 .coding {
@@ -26,29 +30,34 @@ textarea{
 }
 
 .codingBtn{
-    width:953px !important;
-    margin-top: 3px;
+    width:80% !important;
+    margin-top: 1px;
+    margin-bottom: 3px;
+    margin-left: 1px !important;
+
 }
 
 .movable > p{
     margin-left: 0px;
+    margin-bottom: 2px !important;
     padding-left: 12px;
     padding-bottom: 5px;
-    margin-bottom: 1px !important;
-    width:953px !important;
+    width:80% !important;
+    vertical-align: bottom !important;
 }
 
-.movable > form{
+#inputForm .movable > form{
     margin-left: 0px;
 }
 
 #sepResult{
+    margin-top: 2px;
     margin-left: 0px !important;
     border-radius: 2px;
     border:1px #000000 solid;
     padding: 10px;
     font-size: 90%;
-    width:953px !important;
+    width:80% !important;
 }
 
 /* .enter{
@@ -56,10 +65,12 @@ textarea{
 } */
 
 .form-control-v2{
-    width:953px !important;
+    width:80% !important;
     display: inline !important;
-    vertical-align: bottom;
+    vertical-align: top;
+    margin-right: 2px !important;
 }
+
 
 /* .inline-control{
     width:953px !important;

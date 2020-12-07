@@ -165,7 +165,10 @@ const createTextArea = (e) => {
     textArea.cols = 50;
     textArea.rows = 3;
     textArea.classList.add("form-control");
-    // textArea.style = getCurrentStyle().inputStyle;
+    let height = e.target.scrollHeight;
+    textArea.style.height = 'auto';
+    console.log(height)
+    textArea.style.height = height + 'px';
     textArea.addEventListener('click', checkInputForm);
     textArea.addEventListener('input', autoResize);
     e.target.replaceWith(textArea)

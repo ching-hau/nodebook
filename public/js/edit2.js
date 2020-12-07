@@ -6,7 +6,7 @@ const insertAfter = (newNode, existingNode) => {
 }
 
 const getCurrentStyle = () => {
-    const currentStatus = document.querySelector(".active").innerText;
+    const currentStatus = document.querySelector("label.active").innerText;
     let fontSize;
     switch(currentStatus){
         case "L-Text":
@@ -19,7 +19,7 @@ const getCurrentStyle = () => {
             fontSize = "100%"
             break;
             case "Coding":
-            fontSize = "90%;background-color: #D3D3D3;"
+            fontSize = "90%;background-color: #D3D3D3; padding: 10px"
             break;
     }
     return fontSize;
@@ -65,7 +65,7 @@ const cancelDefault = (e) => {
 
 const autoResize = (e) => {
     let height = e.target.scrollHeight;
-    //e.target.style.height = 'auto';
+    // e.target.style.height = 'auto';
     e.target.style.height = height + 'px';
 }
 
@@ -102,7 +102,7 @@ const transToForm = (e) => {
     }
     if(e.target.tagName == "P" && allFormNumber <=2){
         let originalText = e.target.innerHTML.replace(/<br>/g, "\n")
-        let currentHeight = e.target.scrollHeight
+        let currentHeight = (e.target.scrollHeight)*1.2
         originalInputForm.style.display = "none"
         e.target.replaceWith(modifyText(originalText, currentDiv, currentHeight))  
     }
@@ -161,10 +161,11 @@ const modifyText = (originalText, insertPos, currentHeight) => {
     newTextArea.style = "font-size:" + getCurrentStyle();
     newTextArea.style.height = currentHeight + "px";
     newTextArea.addEventListener("input", autoResize)
+    newTextArea.addEventListener("click", autoResize)
     newTextArea.innerHTML = originalText;
     newEnterButton.innerText = "ENTER";
     newEnterButton.classList.add("btn");
-    newEnterButton.classList.add("btn-outline-secondary");
+    newEnterButton.classList.add("btn-dark");
     newEnterButton.classList.add("enter");
     newEnterButton.id = "enterBtn";
     newInputForm.append(newTextArea);
@@ -182,7 +183,7 @@ const modifyText = (originalText, insertPos, currentHeight) => {
 }
 
 const addCodingClass = (inputTextP, motherDiv) => {
-    const currentStatus = document.querySelector(".active").innerText;
+    const currentStatus = document.querySelector("label.active").innerText;
     if(currentStatus == "Coding"){
         inputTextP.classList.add("coding");
         // here
@@ -196,6 +197,7 @@ const addCodingClass = (inputTextP, motherDiv) => {
         codingButton.classList.add("myButton");
         codingButton.innerText = "RUN";
         codingButton.addEventListener("click", socketRunCodeSep);
+        console.log(inputTextP)
         insertAfter(codingButton, inputTextP)
     }
 }
@@ -259,7 +261,7 @@ const insertWaiting = (e) => {
     waitingDiv.role = "status";
     waitingSpan.classList.add("sr-only");
     waitingDiv.append(waitingSpan)
-    e.target.previousSibling.appendChild(waitingDiv);
+    e.target.parentNode.appendChild(waitingDiv);
 }
 
 
@@ -306,5 +308,4 @@ textArea.addEventListener("click", getCorrectFormat);
 titleInputForm.addEventListener("submit", modifyTitle);
 allInputDiv.addEventListener("click", transToForm);
 originalInputForm.addEventListener("submit", submitOriginalForm);
-
 
