@@ -44,6 +44,7 @@ textarea{
     padding-bottom: 5px;
     width:80% !important;
     vertical-align: bottom !important;
+    white-space: pre;
 }
 
 #inputForm .movable > form{

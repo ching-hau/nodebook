@@ -100,7 +100,7 @@ const transToForm = (e) => {
         console.log("2222")
         removeButton(e)
     }
-    if(e.target.tagName == "P" && allFormNumber <=2){
+    if(e.target.tagName == "P" && allFormNumber <2){
         let originalText = e.target.innerHTML.replace(/<br>/g, "\n")
         let currentHeight = (e.target.scrollHeight)*1.2
         originalInputForm.style.display = "none"
@@ -140,6 +140,7 @@ const appendText = (text, insertPos) => {
 const appendTitle = (text) => {
     const titleDiv = document.querySelector("#title");
     const titleChildDiv = document.createElement("div");
+    const titleInputForm = document.querySelector("#titleForm");
     titleChildDiv.innerText = text;
     titleChildDiv.classList.add("h1");
     titleChildDiv.id = "childTitle"
@@ -298,14 +299,45 @@ socket.on("send reult", (data) => {
     insertSocektResultSep(result, index);
 });
 
+const addEventToSingleItem = (action, element, func) => {
+    if(element){
+        element.addEventListener(action, func);
+    }
+}
+
+const addEventToMultiItems = (action, elements, func) => {
+    if(elements.length >0){
+        elements.forEach(element => element.addEventListener(action, func))
+    }
+}
+
+
 const originalInputForm = document.querySelector("#inputForm")
 const textArea = document.querySelector("textarea");
 const allInputDiv = document.querySelector("#allMovable");
-const titleInputForm = document.querySelector("#titleForm")
+const titleInputForm = document.querySelector("#titleForm");
+const childTitleDiv = document.querySelector("#childTitle");
 
-textArea.addEventListener("input", autoResize);
-textArea.addEventListener("click", getCorrectFormat);
-titleInputForm.addEventListener("submit", modifyTitle);
-allInputDiv.addEventListener("click", transToForm);
-originalInputForm.addEventListener("submit", submitOriginalForm);
+
+addEventToSingleItem("input", textArea, autoResize);
+addEventToSingleItem("click", textArea, getCorrectFormat);
+addEventToSingleItem("submit", titleInputForm, modifyTitle);
+addEventToSingleItem("click", allInputDiv, transToForm);
+addEventToSingleItem("submit", originalInputForm, submitOriginalForm);
+addEventToSingleItem("click", childTitleDiv, createTitleForm)
+
+const allMovalbleDiv = document.querySelectorAll(".movable");
+const allCodingBtn = document.querySelectorAll(".codingBtn");
+
+addEventToMultiItems("dragstart", allMovalbleDiv, dragStart);
+addEventToMultiItems("drop", allMovalbleDiv, dropped);
+addEventToMultiItems("dragenter", allMovalbleDiv, cancelDefault);
+addEventToMultiItems("dragover", allMovalbleDiv, cancelDefault);
+addEventToMultiItems("click", allCodingBtn, socketRunCodeSep);
+
+// textArea.addEventListener("input", autoResize);
+// textArea.addEventListener("click", getCorrectFormat);
+// titleInputForm.addEventListener("submit", modifyTitle);
+// allInputDiv.addEventListener("click", transToForm);
+// originalInputForm.addEventListener("submit", submitOriginalForm);
 

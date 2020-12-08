@@ -2,6 +2,9 @@ const dbConfig = require("./dbConfig")
 const con = dbConfig.sqlCon;
 
 const errFuncion = (err, errMessage, reject) => {
+    if(errMessage === ""){
+        errMessage = { stat: "fail"}
+    }
     if(err){
         reject(errMessage);
     }
@@ -34,17 +37,17 @@ const updateFileContent = (data) => {
         let sqlCheckIdExistence = "SELECT id FROM user_file WHERE id = (?);"
         let sqlUpdateFileContent = "UPDATE user_file SET file_content = (?) WHERE id = (?);"
         let {project_id, file_content} = data;
-        let errMessage = { stat: "fail"}
+        console.log(project_id)
         con.getConnection((err, connection) => {
             connection.query(sqlCheckIdExistence, project_id, (err, result, fields) => {
                 if(result){
                     let dataBinding = [file_content, project_id]
                     connection.query(sqlUpdateFileContent, dataBinding, (err, result, field) => {
-                        errFuncion(err, errMessage, reject);
+                        errFuncion(err, "", reject);
                         resolve({ stat: "success"});
                     })
                 }else{
-                    errFuncion(err, errMessage, reject);
+                    errFuncion(err, "", reject);
                     reject({stat: "invalid id"})
                 }
                 connection.release();
@@ -53,9 +56,40 @@ const updateFileContent = (data) => {
     })
 }
 
+const getFileById = (id) => {
+    return new Promise((resolve, reject) => {
+        let sqlGetFileById = "SELECT * FROM user_file WHERE id = (?);";
+        con.query(sqlGetFileById, id, (err, result, field) => {
+            errFuncion(err, "", reject);
+            if(result.length > 0){
+                resolve(result);
+            }else{
+                errFuncion(err, "", reject);
+                reject({stat: "invalid id"})
+            }
+            
+        })
+    })
+}
+
+const getAllProjectIdByUser = (user) => {
+    return new Promise((resolve, reject) => {
+        let sqlGetProjectById = "SELECT id, file_name FROM user_file WHERE user_email = (?);";
+        con.query(sqlGetProjectById, user, (err, result, field) => {
+            errFuncion(err, "", reject);
+            resolve(result);
+        })
+    })
+}
+
+
+
+
 module.exports = {
     saveNewFileContent,
-    updateFileContent
+    updateFileContent,
+    getFileById,
+    getAllProjectIdByUser
 }
 
 // SELECT LAST_INSERT_ID() AS file_id;

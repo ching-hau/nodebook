@@ -18,7 +18,9 @@ const save_as = async () => {
     }
     const result = await fetch("/file/saveas", config).then(res=> {return res.json()})
     localStorage.setItem(result.file_name, JSON.stringify(result));
+    console.log(result)
     alert(`You have saved this file as ${title}.`)
+    window.location.replace(`/template.html?id=${result.project_id}`);
 }
 
 const save = async () => {
@@ -28,21 +30,22 @@ const save = async () => {
     }
     let title = titleTextDiv.innerText;
     let content = JSON.parse(localStorage.getItem(title));
+    let motherDivData = document.querySelector("#motherDiv").innerHTML;
     if(content){
         let data = {
             token: "test",
             project_id: content.project_id,
             user_email: content.user_email,
             file_name: content.file_name,
-            file_content: content.file_content
+            file_content: motherDivData
         }
-        console.log(data)
         let config = {
             method:'POST',
             headers:{'Content-Type': 'application/json'},
             body: JSON.stringify(data)
         }
         const result = await fetch("/file/save", config).then(res=> {return res.json()});
+        console.log(result);
         localStorage.setItem(result.file_name, JSON.stringify(result))
         alert(`${title} was saved.`)
     }else{

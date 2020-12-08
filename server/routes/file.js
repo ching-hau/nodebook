@@ -31,7 +31,8 @@ router.post("/save", async (req, res) => {
     }
     try{
         let updateResult = await fileDB.updateFileContent(data);
-        if(updateResult === "success"){
+        if(updateResult.stat === "success"){
+            console.log("saved the file successfully")
             resultConf.project_id = data.project_id;
             res.status(200).send(resultConf);
         }else{
@@ -41,6 +42,23 @@ router.post("/save", async (req, res) => {
         console.log(err)
     }
 
+})
+
+router.get("/files", async (req, res) => {
+    const {id}=req.query;
+    let result = await fileDB.getFileById(id);
+    let resultConf = {
+        project_id: id,
+        user_mail: result[0].user_email,
+        file_name: result[0].file_name,
+        file_content: result[0].file_content
+    }
+    res.status(200).send(resultConf)
+});
+
+router.get("/allProjectsId", async (req, res) => {
+    let allId = await fileDB.getAllProjectIdByUser("test");
+    res.status(200).send(allId);
 })
 
 module.exports = router;
