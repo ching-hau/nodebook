@@ -17,40 +17,66 @@
         <div class="bg-light border-right" id="sidebar-wrapper">
           <div class="sidebar-heading"><strong> NODEBOOK </strong></div>
           <div class="list-group list-group-flush">
-            <a href="#" class="list-group-item list-group-item-action bg-light">Home Page</a>
-            <div class="navbar-nav favorite">
-                <li class="nav-item dropdown">
-                    <div class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Favorite
-                    </div>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">What's function programming?</a>
-                    </div>
-                </li>
-            </div>
-            <div class="navbar-nav files">
-                <li class="nav-item dropdown">
-                    <div class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Files
-                    </div>
-                    <div class="dropdown-menu dropdown-menu-right userFiles" aria-labelledby="navbarDropdown">
-                        <!-- <a class="dropdown-item" href="#">What's function programming?</a>
-                        <a class="dropdown-item" href="#">Binary Search Example</a>
-                        <a class="dropdown-item" href="/file/files?id=27">Recursive Function</a> -->
+            <a href="#" class="list-group-item list-group-item-action bg-light">
+                <img src="img/home.png" class="icons" height="13px">
+                Home Page
+            </a>
+
+            <ul class="nav nav-list list-group-item list-group-item-action bg-light">
+                <li class="nav-header"  data-toggle="collapse" data-target="#newfile"> 
+                    <span>
+                        <a href="emptyFile.html" target="_blank">
+                            <img src="img/files.png" class="icons" height="13px">
+                        </a>
+                        New File
+                    </span>
+                    <div class="nav nav-list collapse" id="newfile">
+
                     </div>
                 </li>
-            </div>
-            <div class="navbar-nav trashes">
-                <li class="nav-item dropdown">
-                    <div class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Trash
-                    </div>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Tips for writing CSS</a>
-                        <a class="dropdown-item" href="#">10 important things you need to know</a>
+            </ul>
+
+            <ul class="nav nav-list list-group-item list-group-item-action bg-light">
+                <li class="nav-header"  data-toggle="collapse" data-target="#file"> 
+                    <span>
+                        <img src="img/folder.png" class="icons" height="13px">
+                        Files
+                    </span>
+                    <div class="nav nav-list collapse userFiles" id="file">
+
                     </div>
                 </li>
-            </div>
+            </ul>
+
+            <ul class="nav nav-list list-group-item list-group-item-action bg-light">
+                <li class="nav-header"  data-toggle="collapse" data-target="#like"> 
+                    <span>
+                        <img src="img/favorite.png" class="icons" height="15px">
+                        Favorite
+                    </span>
+                    <div class="nav nav-list collapse" id="like">
+                        <a class="dropdown-item navItem" href="#">Tips for writing CSS</a>
+                        <a class="dropdown-item navItem" href="#">10 important things you need to know</a>
+                    </div>
+                </li>
+            </ul>
+            
+            <ul class="nav nav-list list-group-item list-group-item-action bg-light">
+                <li class="nav-header"  data-toggle="collapse" data-target="#trash"> 
+                    <span>
+                        <img src="img/trash2.png" class="icons" height="15px">
+                        Trash
+                    </span>
+                    <div class="nav nav-list collapse" id="trash">
+                        <a class="dropdown-item navItem" href="#">Tips for writing CSS</a>
+                        <a class="dropdown-item navItem" href="#">10 important things you need to know</a>
+                    </div>
+                </li>
+            </ul>
+
+
+
+
           </div>
         </div>
         <!-- /#sidebar-wrapper -->
@@ -59,15 +85,21 @@
         <div id="page-content-wrapper">
     
           <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-            <button class="btn btn-light" id="menu-toggle">Menu</button>
-    
+            <button class="btn btn-light" id="menu-toggle">
+                <img src="img/menu.png" class="icons" height="20px">
+                Menu
+            </button>
+ 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
+            
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
  
               <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                <!-- <img src="img/star.png" class="icons" height="35px"> -->
+
                 <button class="btn btn-light" onclick="save_as();">Save as</button>
                 <button class="btn btn-light" onclick="save();">Save</button>
                 <!-- <li class="nav-item active">
@@ -114,7 +146,7 @@
                 </form>
             </div>
             <div id="allMovable" class=".container w-75">
-                <form id="inputForm" class="form-group">
+                <form id="inputForm" class="form-group inputForm">
                     <textarea rows="1" cols="50" id="inputArea" class="form-control form-control-v2"></textarea>
                     <button id="enterBtn"class="btn btn-dark enter">ENTER</button>
                 </form>
@@ -127,8 +159,8 @@
     </div>
 
     <script src="socket.io/socket.io.js"></script>
-    <script src = "js/nav.js"></script>
     <script src = "js/emptyFile.js"></script>
+    <script src = "js/nav.js"></script>
     <script src = "js/handleFile.js"></script>
     <script src = "js/userList.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

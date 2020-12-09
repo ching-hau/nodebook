@@ -4,7 +4,9 @@ const createUserList = async () => {
     allIDs.forEach(element => {
         const aElement = document.createElement("a");
         aElement.classList.add("dropdown-item");
+        aElement.classList.add("navItem");
         aElement.href = `/template.html?id=${element.id}`
+        aElement.target="_blank"
         aElement.innerText = element.file_name
         filesDiv.append(aElement)
     });

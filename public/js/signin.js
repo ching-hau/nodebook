@@ -56,8 +56,6 @@ function googleSignIn(googleUser) {
         access_token: gToken,
         group: "google"
     }
-    console.log(gToken)
-    console.log(getCorrectConf(data))
     fetch('/sign/signin', getCorrectConf(data))
     .then(res=>res.json())
     .then(result=>{setToken(result)})

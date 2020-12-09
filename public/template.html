@@ -60,7 +60,11 @@
     
           <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
             <button class="btn btn-light" id="menu-toggle">Menu</button>
-    
+            <div id="addFile">
+                <a href="emptyFile.html">
+                    <img src="img/newFile.png" alt="add new file" height="35px" target="_blank">
+                </a>
+            </div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -68,8 +72,10 @@
 
  
               <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                <button class="btn btn-light" onclick="save_as();">Save as</button>
-                <button class="btn btn-light" onclick="save();">Save</button>
+
+                <button class="btn btn-light savebtn" onclick="save_as();">Save as</button>
+                <button class="btn btn-light savebtn" onclick="save();">Save</button>
+
                 <!-- <li class="nav-item active">
                   <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                 </li>
@@ -86,6 +92,7 @@
                         <!-- <div class="dropdown-divider"></div> -->
                         <a class="dropdown-item" href="#">Export to JS</a>
                     </div>
+                    
                 </li>
                 
               </ul>

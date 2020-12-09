@@ -78,3 +78,17 @@ textarea{
     display: inline !important;
     vertical-align: bottom;
 } */
+
+.savebtn{
+    margin-left: 10px;
+}
+
+ .navItem{
+     font-size: 8px !important;
+     padding-left: 0px !important;
+     margin-left: 0px !important;
+ }
+
+ .icons{
+     margin-bottom: 5px !important;
+ }

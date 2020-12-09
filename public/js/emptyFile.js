@@ -95,7 +95,7 @@ const modifyTitle = (e) => {
 const transToForm = (e) => {
     let allItem = document.querySelectorAll(".movable");
     let currentDiv = getCurrentDiv(allItem, e);
-    let allFormNumber = document.querySelectorAll("form").length;
+    let allFormNumber = document.querySelectorAll(".inputForm").length;
     if(e.target.className === "newText coding"){
         console.log("2222")
         removeButton(e)
@@ -155,6 +155,7 @@ const modifyText = (originalText, insertPos, currentHeight) => {
     const newEnterButton = document.createElement("button");
     newInputForm.id = "newForm";
     newInputForm.classList.add("form-group");
+    newInputForm.classList.add("inputForm");
     newTextArea.rows = "1";
     newTextArea.cols = "30";
     newTextArea.classList.add("form-control");
@@ -340,4 +341,3 @@ addEventToMultiItems("click", allCodingBtn, socketRunCodeSep);
 // titleInputForm.addEventListener("submit", modifyTitle);
 // allInputDiv.addEventListener("click", transToForm);
 // originalInputForm.addEventListener("submit", submitOriginalForm);
-
