@@ -6,21 +6,27 @@ const save_as = async () => {
     }
     let title = titleTextDiv.innerText;
     let data = {
-        token: "test",
-        user_email: "test",
         file_name: title,
         file_content: motherDivData
     }
     let config = {
         method:'POST',
-        headers:{'Content-Type': 'application/json'},
+        headers:{
+            'Content-Type': 'application/json',
+            "pcToken":localStorage.getItem("pcToken"),
+        },
         body: JSON.stringify(data)
     }
+    console.log(data)
     const result = await fetch("/file/saveas", config).then(res=> {return res.json()})
-    localStorage.setItem(result.file_name, JSON.stringify(result));
-    console.log(result)
-    alert(`You have saved this file as ${title}.`)
-    window.location.replace(`/template.html?id=${result.project_id}`);
+    if(result.project_id === "na"){
+        alert("This file was not saved. Please try again.")
+    }else{
+        localStorage.setItem(result.file_name, JSON.stringify(result));
+        console.log(result)
+        alert(`You have saved this file as ${title}.`)
+        window.location.replace(`/template.html?id=${result.project_id}`);
+    }
 }
 
 const save = async () => {
@@ -33,15 +39,17 @@ const save = async () => {
     let motherDivData = document.querySelector("#motherDiv").innerHTML;
     if(content){
         let data = {
-            token: "test",
+            token: localStorage.getItem("pcToken"),
             project_id: content.project_id,
-            user_email: content.user_email,
             file_name: content.file_name,
             file_content: motherDivData
         }
         let config = {
             method:'POST',
-            headers:{'Content-Type': 'application/json'},
+            headers:{
+                'Content-Type': 'application/json',
+                "pcToken":localStorage.getItem("pcToken"),
+            },
             body: JSON.stringify(data)
         }
         const result = await fetch("/file/save", config).then(res=> {return res.json()});

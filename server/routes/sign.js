@@ -15,7 +15,6 @@ const checkThirdPartSignInStatus = async (req) => {
         url = 'https://graph.facebook.com/me?fields=id,name,email&access_token=' + access_token
     }else if (group == "google"){
         url = 'https://oauth2.googleapis.com/tokeninfo?id_token=' + access_token
-        console.log("here111")
     }
     let userInfo = await fetch(url).then(result => {return result.json()})
     let dbResult = await signDB.checkUserExistence(userInfo.email)
@@ -86,7 +85,7 @@ router.post("/signin", async (req, res) => {
     if(userInfo.user == "na"){
         return res.status(200).json(userInfo);
     }else{
-        let pcToken = jwt.sign({userInfo}, JWTKEY, { expiresIn: 360 });
+        let pcToken = jwt.sign({userInfo}, JWTKEY, { expiresIn: 3600 });
         let {id, name, email } = userInfo.user;
         return res.status(200).json({
             stat: "success",

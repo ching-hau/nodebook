@@ -19,7 +19,8 @@ function getCorrectConf(data){
 function setToken(result){
     if(result.stat = "success"){
         let {pcToken} = result;
-        window.localStorage.setItem('pcToken', pcToken)
+        window.localStorage.setItem('pcToken', pcToken);
+        window.location.replace("/userFile.html")
         console.log(result)
     }
 }
@@ -48,10 +49,25 @@ function checkLoginState(){
     })
 }
 
+//Render Google buttomn
+function renderButton() {
+    gapi.signin2.render("googleButton", {
+        'scope': 'profile email',
+        'width': 229,
+        'height': 40,
+        'longtitle': true,
+        'onsuccess': googleSignIn,
+        'onfailure': onFailure
+    })
+}
+
+function onFailure(error){
+    console.log(error)
+}
+
 function googleSignIn(googleUser) {
     let gToken = googleUser.getAuthResponse().id_token;
-    //window.localStorage.setItem('access_token', gToken)
-    //window.localStorage.setItem('group', 'google')
+
     let data = {
         access_token: gToken,
         group: "google"
@@ -59,12 +75,7 @@ function googleSignIn(googleUser) {
     fetch('/sign/signin', getCorrectConf(data))
     .then(res=>res.json())
     .then(result=>{setToken(result)})
-    //let profile = googleUser.getBasicProfile();
-    //console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    //console.log('Name: ' + profile.getName());
-    //console.log('Image URL: ' + profile.getImageUrl());
-    //console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-  }
+}
 
 
 function signInBtn(){

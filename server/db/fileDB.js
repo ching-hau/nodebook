@@ -82,9 +82,6 @@ const getAllProjectIdByUser = (user) => {
     })
 }
 
-
-
-
 module.exports = {
     saveNewFileContent,
     updateFileContent,

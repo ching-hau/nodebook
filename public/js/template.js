@@ -10,7 +10,7 @@ const importSrc = () => {
     })
 }
 
-const generateFile = async (id) => {
+const generateFile2 = async (id) => {
     let url = "/file/files?id=" + id;
     let rawData = await fetch(url).then(res => {return res.json()})
     const motherDiv = document.querySelector("#motherDiv")
@@ -19,11 +19,29 @@ const generateFile = async (id) => {
     importSrc()
 }
 
-if(projectID){
-    generateFile(projectID)
-}else{
-    window.location.replace("/emptyFile.html");
+
+const generateFile = async (id) => {
+    let url = "/file/files?id=" + id;
+    let config = {
+        method:'POST',
+        headers:{
+            'Content-Type': 'application/json',
+            "pcToken":localStorage.getItem("pcToken"),
+        }
+    }
+    let rawData = await fetch(url, config).then(res => {return res.json()})
+    if(rawData.stat === "success"){
+        const motherDiv = document.querySelector("#motherDiv")
+        motherDiv.innerHTML = rawData.file_content;
+        localStorage.setItem(rawData.file_name, JSON.stringify(rawData))
+        importSrc()
+    }else if(rawData.stat === "invalid"){
+        alert("Invalid token to access this file.");
+        window.location.replace("/emptyFile.html")
+    }
 }
 
 
-
+if(projectID){
+    generateFile(projectID)
+}
