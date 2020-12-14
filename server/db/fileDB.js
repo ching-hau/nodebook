@@ -12,6 +12,46 @@ const errFuncion = (err, errMessage, reject) => {
 
 const saveNewFileContent = (data) => {
     return new Promise((resolve, reject) => {
+        let sqlGetFileByName = "SELECT id FROM user_file WHERE user_email = (?) AND file_name = (?)";
+        let sqlInsertFileContent = "INSERT INTO user_file (user_email, file_name, file_content, file_delete) VALUES (?, ?, ?, ?);"
+        let dataBinding1 = [data.user_email, data.file_name]
+        let dataBinding2 = [data.user_email, data.file_name, data.file_content, 0]
+        const errMessage = { stat: "fail", project_id: 0 }
+        con.getConnection((err, connection) => {
+            errFuncion(err, errMessage, reject);
+            console.log("connected to sql pool in fileDB successfully");
+            connection.query(sqlGetFileByName, dataBinding1, (err, result, fields) => {
+                console.log(result)
+                if(result.length == 0){
+                    connection.query(sqlInsertFileContent, dataBinding2, (err, result, fields) => {
+                        console.log("here")
+                        errFuncion(err, errMessage, reject)
+                        let sqlGetInsertId = "SELECT LAST_INSERT_ID() AS project_id;";
+                        connection.query(sqlGetInsertId, (err, result, fields) => {
+                            errFuncion(err, errMessage, reject)
+                            resolve({ stat: "success", project_id: result[0].project_id });
+                            connection.release();
+                        })
+                    });
+                }else{
+                    console.log("reject")
+                    reject({stat:"repeated file name"})
+                    connection.release();
+                }
+            })
+
+
+
+
+        })
+    })
+}
+
+
+
+
+const saveNewFileContent2 = (data) => {
+    return new Promise((resolve, reject) => {
         let sqlInsertFileContent = "INSERT INTO user_file (user_email, file_name, file_content, file_delete) VALUES (?, ?, ?, ?);"
         let dataBinding = [data.user_email, data.file_name, data.file_content, 0]
         const errMessage = { stat: "fail", project_id: 0 }

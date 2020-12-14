@@ -18,15 +18,16 @@ const save_as = async () => {
         },
         body: JSON.stringify(data)
     }
-    console.log(data)
     const result = await fetch("/file/saveas", config).then(res=> {return res.json()})
-    if(result.project_id === "na"){
-        alert("This file was not saved. Please try again.")
-    }else{
+    if(result.stat === "repeated file name"){
+        alert("This file name was used. Please try a new one.")
+    }else if(result.stat == "success"){
         localStorage.setItem(result.file_name, JSON.stringify(result));
         console.log(result)
-        alert(`You have saved this file as ${title}.`)
+        alert(`You saved this file as ${title}.`)
         window.location.replace(`/template.html?id=${result.project_id}`);
+    }else{
+        alert("This file is not saved.")
     }
 }
 

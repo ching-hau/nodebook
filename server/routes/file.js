@@ -3,7 +3,6 @@ const router = express.Router();
 const fileDB = require("../db/fileDB");
 const jwt = require('jsonwebtoken');
 const signDB = require("../db/signDB");
-const { indigo } = require("color-name");
 require("dotenv").config();
 
 const JWTKEY = process.env.JWT_KEY
@@ -26,9 +25,11 @@ router.post("/saveas", verifyToken, async (req, res) => {
         let insertResult = await fileDB.saveNewFileContent(data);
         if(insertResult.stat === "success"){
             resultConf.project_id = insertResult.project_id;
+            resultConf.stat = "success"
             res.status(200).send(resultConf);
         }
     } catch(err){
+        resultConf.stat = err.stat;
         res.status(200).send(resultConf)
     }
 });
