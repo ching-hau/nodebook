@@ -86,6 +86,9 @@ const getCorrectFormat = (e) => {
 const modifyTitle = (e) => {
     e.preventDefault();
     let title = document.querySelector("#titleInput").value;
+    if(title.length >= 25){
+        alert("Please keep your title less than 25.")
+    }
     if(title != ""){
         appendTitle(title);
         e.target.remove()

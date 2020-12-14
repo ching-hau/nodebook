@@ -3903,7 +3903,7 @@ input[type=button].btn-block {
   border-top-right-radius: 0.25rem;
 }
 .nav-tabs .nav-link:hover, .nav-tabs .nav-link:focus {
-  border-color: #e9ecef #e9ecef #dee2e6;
+  border-color: #000000 #000000 #000000 #dee2e6;
 }
 .nav-tabs .nav-link.disabled {
   color: #6c757d;
@@ -10088,7 +10088,6 @@ img::-moz-selection {
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
     border: none;
-    background-color: transparent;
     transition: padding-top 0.3s ease-in-out, padding-bottom 0.3s ease-in-out;
   }
   #mainNav .navbar-brand {
@@ -10102,7 +10101,6 @@ img::-moz-selection {
   #mainNav.navbar-shrink {
     padding-top: 1rem;
     padding-bottom: 1rem;
-    background-color: #212529;
   }
   #mainNav.navbar-shrink .navbar-brand {
     font-size: 1.25em;
@@ -10123,7 +10121,7 @@ header.masthead {
   padding-bottom: 6rem;
   text-align: center;
   color: #fff;
-  background-image: url("../assets/img/header-bg.jpg");
+  /* background-image: url("../assets/img/header-bg.jpg"); */
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-position: center center;
@@ -10148,8 +10146,8 @@ header.masthead .masthead-heading {
 
 @media (min-width: 768px) {
   header.masthead {
-    padding-top: 17rem;
-    padding-bottom: 12.5rem;
+    padding-top: 8rem;
+    padding-bottom: 2.5rem;
   }
   header.masthead .masthead-subheading {
     font-size: 2.25rem;
@@ -10430,7 +10428,7 @@ header.masthead .masthead-heading {
 }
 
 section#contact {
-  background-color: #e4e6e8;
+  background-color: #fff;
   /* background-image: url("../assets/img/map-image.png"); */
   background-repeat: no-repeat;
   background-position: center;
@@ -10526,7 +10524,7 @@ section#contact form#contactForm :-ms-input-placeholder {
   text-align: center;
 }
 .hr-or {
-  background-color: #cdcdcd;
+  background-color: #fff;
   height: 1px;
   margin-top: 0px !important;
   margin-bottom: 0px !important;
@@ -10552,15 +10550,37 @@ h3 {
 }
 
 .registerSub{
-  margin-top: 15px !important;
+  margin-top: 14px !important;
 }
 
 
 
 #titleIcon{
   height: 60px !important;
+
 }
 
-/* .titleWord{
-  font-size: 20px !important;
-} */
+.mastheadFontTop{
+  font-size: 45px;
+  color: #000;
+  text-align: left !important;
+}
+.mastheadFontDown{
+  font-size: 45px;
+  color: #000;
+  font-weight: 1000;
+  text-align: right !important;
+}
+
+.titleWord{
+  color: white !important;
+}
+
+.topRegion{
+  padding-left: 100px !important;
+  padding-right: 100px !important;
+}
+
+.force{
+  color:"#000"
+}

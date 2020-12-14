@@ -12,8 +12,8 @@ const errFuncion = (err, errMessage, reject) => {
 
 const saveNewFileContent = (data) => {
     return new Promise((resolve, reject) => {
-        let sqlInsertFileContent = "INSERT INTO user_file (user_email, file_name, file_content) VALUES (?, ?, ?);"
-        let dataBinding = [data.user_email, data.file_name, data.file_content]
+        let sqlInsertFileContent = "INSERT INTO user_file (user_email, file_name, file_content, file_delete) VALUES (?, ?, ?, ?);"
+        let dataBinding = [data.user_email, data.file_name, data.file_content, 0]
         const errMessage = { stat: "fail", project_id: 0 }
         con.getConnection((err, connection) => {
             errFuncion(err, errMessage, reject);
@@ -72,9 +72,11 @@ const getFileById = (id) => {
     })
 }
 
+// ()
 const getAllProjectIdByUser = (user) => {
     return new Promise((resolve, reject) => {
-        let sqlGetProjectById = "SELECT id, file_name FROM user_file WHERE user_email = (?);";
+        //let sqlGetProjectById = "SELECT id, file_name FROM user_file WHERE user_email = (?) AND file_delete != 1";
+        let sqlGetProjectById = "SELECT id, file_name, file_delete FROM user_file WHERE user_email = (?);";
         con.query(sqlGetProjectById, user, (err, result, field) => {
             errFuncion(err, "", reject);
             resolve(result);
@@ -82,11 +84,51 @@ const getAllProjectIdByUser = (user) => {
     })
 }
 
+//getAllProjectIdByUser(111).then(result => console.log(result)).catch(err => console.log(err))
+
+const updateFileById = (action, id) => {
+    return new Promise((resolve, reject) => {
+        let sqlDelterFileById = "UPDATE user_file SET file_delete = (?) WHERE id = (?)"
+        let dataBinding;
+        if(action === "delete"){
+            dataBinding = [1, id]
+        }else{
+            dataBinding = [0, id]
+        }
+        con.query(sqlDelterFileById, dataBinding, (err, result, field) => {
+            errFuncion(err, "", reject);
+            resolve({stat: "success"});
+        })
+    })
+}
+
+const deleteFileById = (id) => {
+    return new Promise((resolve, reject) => {
+        let sqlDeleteFileById = "DELETE FROM user_file WHERE id = (?);";
+        con.query(sqlDeleteFileById, id, (err, result, field) => {
+            errFuncion(err, "", reject);
+            resolve({stat:"success"})
+        })
+    })
+}
+
+function test (){
+    console.log(1);
+
+}
+
+
+//deleteFileById(48).then(result => console.log(result)).catch(err => console.log(err))
+//updateFileById("cancel", 27).then(result => console.log(result)).catch(err => console.log(err))
+//getAllProjectIdByUser(111).then(result => console.log(result)).catch(err => console.log(err))
+
 module.exports = {
     saveNewFileContent,
     updateFileContent,
     getFileById,
-    getAllProjectIdByUser
+    getAllProjectIdByUser,
+    updateFileById,
+    deleteFileById
 }
 
 // SELECT LAST_INSERT_ID() AS file_id;

@@ -1,3 +1,4 @@
+
 const save_as = async () => {
     let motherDivData = document.querySelector("#motherDiv").innerHTML;
     let titleTextDiv = document.querySelector("#childTitle");
@@ -60,3 +61,24 @@ const save = async () => {
         alert("You have never saved this file. Please save this file as the new one.")
     }
 }
+
+const deleteFile = async () => {
+    const title = document.querySelector("#title").innerText;
+    let data = {
+        projectID: projectID
+    }
+    let config = {
+        method:'POST',
+        headers:{
+            'Content-Type': 'application/json',
+            "pcToken":localStorage.getItem("pcToken"),
+        },
+        body: JSON.stringify(data)
+    }
+    const deleteResult = await fetch("/file/delete", config).then(res => {return res.json()});
+    if(deleteResult.stat === "success"){
+        alert(`${title} has been deleted.`);
+        window.location.replace("/userFile.html");
+    }
+}
+

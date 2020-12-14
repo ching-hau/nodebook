@@ -3,6 +3,7 @@ const router = express.Router();
 const fileDB = require("../db/fileDB");
 const jwt = require('jsonwebtoken');
 const signDB = require("../db/signDB");
+const { indigo } = require("color-name");
 require("dotenv").config();
 
 const JWTKEY = process.env.JWT_KEY
@@ -30,25 +31,10 @@ router.post("/saveas", verifyToken, async (req, res) => {
     } catch(err){
         res.status(200).send(resultConf)
     }
-
-
-    
-    // if(insertResult.stat === "fail"){
-    //     console.log(" fail here")
-    //     res.status(200).send(resultConf)
-    // }else if(insertResult.stat === "success"){
-    //     resultConf.project_id = insertResult.project_id
-    //     res.status(200).send(resultConf)
-    // }
 });
 
 router.post("/save", verifyToken, async (req, res) => {
     let data = req.body;
-    // let data = {
-    //     "user_email":req.userMail,
-    //     "file_name": req.body.file_name,
-    //     "file_content": req.body.file_content
-    // }
     let resultConf = {
         project_id: "na",
         user_mail: req.userMail,
@@ -91,7 +77,8 @@ router.post("/files", verifyToken, async (req, res) => {
             project_id: id,
             user_mail: result[0].user_email,
             file_name: result[0].file_name,
-            file_content: result[0].file_content
+            file_content: result[0].file_content,
+            file_delete: result[0].file_delete
         }
         res.status(200).send(resultConf)
     } else{
@@ -106,22 +93,6 @@ router.get("/allProjectsId", verifyToken, async (req, res) => {
     res.status(200).send(allId);
 });
 
-// router.post("/user", async(req, res) => {
-//     let {pctoken} = req.headers;
-//     let userMail;
-//     jwt.verify(pctoken, JWTKEY, (err, authData) => {
-//         if(err) {
-//             console.log(err);
-//         }else{
-//             userMail = authData.userInfo.user.email;
-
-//         }
-//     });
-//     let allId = await fileDB.getAllProjectIdByUser(userMail);
-//     console.log(allId)
-//     res.status(200).send(allId);
-// })
-
 
 
 
@@ -133,7 +104,36 @@ router.post("/user", verifyToken, async(req, res) => {
     res.status(200).send(allId);
 })
 
+router.post("/delete", verifyToken, async(req, res) => {
+    let {projectID} = req.body;
+    try{
+        let deleteResult = await fileDB.updateFileById("delete", projectID);
+        res.status(200).send(deleteResult);
+    } catch(err){
+        res.status(200).send(err);
+    }
+});
 
+router.post("/recover", verifyToken, async(req, res) => {
+    let {projectID} = req.body;
+    try{
+        let recover = await fileDB.updateFileById("recover", projectID);
+        res.status(200).send(recover);
+    } catch(err){
+        res.status(200).send(err);
+    }
+});
+
+router.post("/deleteForever", verifyToken, async(req, res) => {
+    let {projectID} = req.body;
+    try{
+        let deleteForeverResult = await fileDB.deleteFileById(projectID);
+        console.log(deleteForeverResult)
+        res.status(200).send(deleteForeverResult);
+    } catch(err){
+        res.status(200).send(err);
+    }
+})
 
 function verifyToken (req, res, next) {
     let {pctoken} = req.headers;
@@ -150,24 +150,7 @@ function verifyToken (req, res, next) {
     });
 }
 
-// let token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mbyI6eyJzdGF0IjoiV2VsY29tZSB0byBwcm9ncmFtaW5nIGNoYXR0aW5nISIsInVzZXIiOnsiaWQiOjMzLCJuYW1lIjoiMTExIiwiZW1haWwiOiIxMTEiLCJwYXNzd29yZCI6ImY2ZTBhMWUyYWM0MTk0NWE5YWE3ZmY4YThhYWEwY2ViYzEyYTNiY2M5ODFhOTI5YWQ1Y2Y4MTBhMDkwZTExYWUiLCJsb2dpbiI6Im5hdGl2ZSIsImltYWdlIjpudWxsfX0sImlhdCI6MTYwNzU5Mjk3MywiZXhwIjoxNjA3NTk2NTczfQ.DZIApkS78vPN83dl_uj2FR1prrMUX4VZL8UWqVwK9tk"
-// async function a(){
-//     let userId
-//     jwt.verify(token, JWTKEY, async (err, authData) => {
-//         if(err) {
-//             console.log(err);
-//         }else{
-//             userMail = authData.userInfo.user.email;
-//         }
-//     });
 
-    
-//     console.log(allId)
-
-// }
-
-
-// a()
 module.exports = router;
 
 

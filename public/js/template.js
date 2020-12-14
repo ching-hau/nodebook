@@ -32,6 +32,7 @@ const generateFile = async (id) => {
     let rawData = await fetch(url, config).then(res => {return res.json()})
     if(rawData.stat === "success"){
         const motherDiv = document.querySelector("#motherDiv")
+        console.log(rawData)
         motherDiv.innerHTML = rawData.file_content;
         localStorage.setItem(rawData.file_name, JSON.stringify(rawData))
         importSrc()

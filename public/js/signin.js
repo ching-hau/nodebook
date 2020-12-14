@@ -72,9 +72,13 @@ function googleSignIn(googleUser) {
         access_token: gToken,
         group: "google"
     }
+    gapi.auth2.getAuthInstance().disconnect()
     fetch('/sign/signin', getCorrectConf(data))
     .then(res=>res.json())
-    .then(result=>{setToken(result)})
+    .then(result=>{
+        setToken(result);
+        googleLoginStatus = true;
+    })
 }
 
 

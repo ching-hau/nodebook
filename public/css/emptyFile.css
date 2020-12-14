@@ -31,9 +31,10 @@ textarea{
 
 .codingBtn{
     width:80% !important;
-    margin-top: 1px;
-    margin-bottom: 3px;
+    margin-top: 0px !important;
+    margin-bottom: 8px !important;
     margin-left: 1px !important;
+    border-radius: 0px !important;
 
 }
 
