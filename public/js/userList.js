@@ -50,10 +50,6 @@ const verifyUser = async () => {
     }
 }
 
-const test = () => {
-    console.log(1)
-    console.log(2)
-}
 
 
 verifyUser()

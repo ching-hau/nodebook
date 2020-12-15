@@ -106,9 +106,12 @@ function signUpBtn(){
         password: signUpPwd
     }
     fetch('/sign/signup', getCorrectConf(data))
-    .then(res=>res.json())
-    .then(result=>{console.log(result)})
+    .then(res=>res.json())  
+    .then(result => {
+        if(result.stat == "Welcome to programing chatting!"){
+            console.log(result)
+            alert("You can log in now!!!");
+        }
+    })  
 }
-
-
 

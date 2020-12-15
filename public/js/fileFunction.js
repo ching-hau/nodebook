@@ -49,7 +49,52 @@ function screenshot() {
 
 
 
+function copyURL(){
+    let input = document.querySelector("#pURL");
+    input.select();
+    document.execCommand("copy");
+    alert("copy successfully")
+}
 
+async function cancelPublic(){
+    let url = "/file/cancelPublic"
+    let data = {id:projectID}
+    let config = {
+        method:'POST',
+        headers:{
+            'Content-Type': 'application/json',
+            "pcToken":localStorage.getItem("pcToken"),
+        },
+        body: JSON.stringify(data)
+    }
+    let result = await fetch(url, config).then(res => {return res.json()});
+    if(result.stat == "success"){
+        alert("You have canceled sharing this file to public.")
+        window.location.reload();
+    }else{
+        alert("Something Wrong!")
+    }
+}
+
+async function shareToPublic(){
+    let url = "/file/toPublic"
+    let data = {id:projectID}
+    let config = {
+        method:'POST',
+        headers:{
+            'Content-Type': 'application/json',
+            "pcToken":localStorage.getItem("pcToken"),
+        },
+        body: JSON.stringify(data)
+    }
+    let result = await fetch(url, config).then(res => {return res.json()});
+    if(result.stat == "success"){
+        alert("You have shared this file to public.")
+        window.location.reload();
+    }else{
+        alert("Something Wrong!")
+    }
+}
 
 
 

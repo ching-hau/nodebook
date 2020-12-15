@@ -1,3 +1,4 @@
+const { CONNREFUSED } = require("dns");
 const dbConfig = require("./dbConfig")
 const con = dbConfig.sqlCon;
 
@@ -39,10 +40,6 @@ const saveNewFileContent = (data) => {
                     connection.release();
                 }
             })
-
-
-
-
         })
     })
 }
@@ -50,27 +47,27 @@ const saveNewFileContent = (data) => {
 
 
 
-const saveNewFileContent2 = (data) => {
-    return new Promise((resolve, reject) => {
-        let sqlInsertFileContent = "INSERT INTO user_file (user_email, file_name, file_content, file_delete) VALUES (?, ?, ?, ?);"
-        let dataBinding = [data.user_email, data.file_name, data.file_content, 0]
-        const errMessage = { stat: "fail", project_id: 0 }
-        con.getConnection((err, connection) => {
-            errFuncion(err, errMessage, reject);
-            console.log("connected to sql pool in fileDB successfully");
-            connection.query(sqlInsertFileContent, dataBinding, (err, result, fields) => {
-                errFuncion(err, errMessage, reject)
-                let sqlGetInsertId = "SELECT LAST_INSERT_ID() AS project_id;";
-                connection.query(sqlGetInsertId, (err, result, fields) => {
-                    errFuncion(err, errMessage, reject)
-                    resolve({ stat: "success", project_id: result[0].project_id });
-                    connection.release();
-                })
-            });
+// const saveNewFileContent2 = (data) => {
+//     return new Promise((resolve, reject) => {
+//         let sqlInsertFileContent = "INSERT INTO user_file (user_email, file_name, file_content, file_delete) VALUES (?, ?, ?, ?);"
+//         let dataBinding = [data.user_email, data.file_name, data.file_content, 0]
+//         const errMessage = { stat: "fail", project_id: 0 }
+//         con.getConnection((err, connection) => {
+//             errFuncion(err, errMessage, reject);
+//             console.log("connected to sql pool in fileDB successfully");
+//             connection.query(sqlInsertFileContent, dataBinding, (err, result, fields) => {
+//                 errFuncion(err, errMessage, reject)
+//                 let sqlGetInsertId = "SELECT LAST_INSERT_ID() AS project_id;";
+//                 connection.query(sqlGetInsertId, (err, result, fields) => {
+//                     errFuncion(err, errMessage, reject)
+//                     resolve({ stat: "success", project_id: result[0].project_id });
+//                     connection.release();
+//                 })
+//             });
 
-        })
-    })
-}
+//         })
+//     })
+// }
 
 const updateFileContent = (data) => {
     return new Promise((resolve, reject) => {
@@ -100,6 +97,7 @@ const getFileById = (id) => {
     return new Promise((resolve, reject) => {
         let sqlGetFileById = "SELECT * FROM user_file WHERE id = (?);";
         con.query(sqlGetFileById, id, (err, result, field) => {
+            console.log(result)
             errFuncion(err, "", reject);
             if(result.length > 0){
                 resolve(result);
@@ -124,7 +122,6 @@ const getAllProjectIdByUser = (user) => {
     })
 }
 
-//getAllProjectIdByUser(111).then(result => console.log(result)).catch(err => console.log(err))
 
 const updateFileById = (action, id) => {
     return new Promise((resolve, reject) => {
@@ -152,15 +149,56 @@ const deleteFileById = (id) => {
     })
 }
 
-function test (){
-    console.log(1);
+const shareToPublic = (id) => {
+    return new Promise((resolve, reject) => {
+        let endPoints = Date.now();
+        let sqlAddFileToPublic = "INSERT INTO public_file (file_id, endPoints) VALUES (?, ?);";
+        let dataBinding = [id, endPoints]
+        con.query(sqlAddFileToPublic, dataBinding, (err, result, fields) => {
+            errFuncion(err, "", reject);
+            resolve({stat:"success", file: endPoints, projectId: id})
+        })
+    })
+}
 
+const cancelPublicShare = (id) => {
+    return new Promise((resolve, reject) => {
+        let sqlDeletePublicById = "DELETE FROM public_file WHERE (file_id) = (?);";
+        con.query(sqlDeletePublicById, id, (err, result, field) => {
+            errFuncion(err, "", reject);
+            resolve({stat:"success"})
+        })
+    })
+}
+
+const getPublicData = (publicFileID) => {
+    return new Promise ((resolve, reject) => {
+        let sqlGetPublicFile = "SELECT file_id FROM public_file WHERE (endpoints) = (?);";
+        con.query(sqlGetPublicFile, publicFileID, (err, result, field) => {
+            errFuncion(err, "", reject);
+            if(result.length > 0){
+                result[0].stat = "success"
+                resolve(result[0]);
+            }else{
+                reject({stat:"fail"});
+            }
+        })
+    })
+}
+
+const checkPublicFile = (id) => {
+    return new Promise((resolve, reject) => {
+        let sqlCheckPublicById = "SELECT * FROM public_file WHERE (file_id) = (?);";
+        con.query(sqlCheckPublicById, id, (err, result, field) => {
+            errFuncion(err, "", reject);
+            resolve(result);
+        })
+    })
 }
 
 
-//deleteFileById(48).then(result => console.log(result)).catch(err => console.log(err))
-//updateFileById("cancel", 27).then(result => console.log(result)).catch(err => console.log(err))
-//getAllProjectIdByUser(111).then(result => console.log(result)).catch(err => console.log(err))
+//cancelPublicShare(37).then(result => console.log(result)).catch(err => {console.log(err)})
+//shareToPublic(31).then(result => console.log(result)).catch(err => {console.log(err)})
 
 module.exports = {
     saveNewFileContent,
@@ -168,7 +206,11 @@ module.exports = {
     getFileById,
     getAllProjectIdByUser,
     updateFileById,
-    deleteFileById
+    deleteFileById,
+    shareToPublic,
+    getPublicData,
+    checkPublicFile,
+    cancelPublicShare
 }
 
-// SELECT LAST_INSERT_ID() AS file_id;
+

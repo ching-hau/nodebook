@@ -93,3 +93,24 @@ textarea{
  .icons{
      margin-bottom: 5px !important;
  }
+
+ #pURL{
+     font-size: 5px;
+     padding-left: 5px !important;
+ }
+
+ .copyBtn{
+    font-size: 5px !important;
+    padding: 1px !important;
+ }
+
+ .publicRegion{
+     padding-left: 10px;
+     font-size: 5px !important;
+     border-top: 1px !important;
+ }
+
+ .fileFunction{
+    padding-left: 10px !important;
+    font-size: 15px !important;
+ }

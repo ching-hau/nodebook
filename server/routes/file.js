@@ -136,6 +136,58 @@ router.post("/deleteForever", verifyToken, async(req, res) => {
     }
 })
 
+router.get("/public", async (req, res) => {
+    let {publicFile} = req.query;
+    try{
+        let projectId = await fileDB.getPublicData(publicFile);
+        console.log(projectId.file_id)
+        let rawData = await fileDB.getFileById(projectId.file_id);
+        console.log(rawData)
+        res.status(200).send({stat:"success", file_content: rawData[0].file_content})
+    } catch(err){
+        res.status(200).send({stat:"fail"})
+    }
+})
+
+router.get("/filePublicCheck", async (req, res) => {
+    let {id} = req.query;
+    console.log(id)
+    try{
+        let result = await fileDB.checkPublicFile(id);
+        if(result[0]){
+            res.status(200).send(result[0]);
+        }else{
+            res.status(200).send({stat:"fail"});
+        }
+        
+    } catch(err){
+        console.log(err)
+    }
+
+})
+
+router.post("/toPublic", async (req, res) => {
+    let {id} = req.body;
+    try{
+        await fileDB.shareToPublic(id);
+        res.status(200).send({stat:"success"});
+    }catch(err){
+        res.status(200).send({stat:"fail"});
+    }
+})
+
+router.post("/cancelPublic", async (req, res) => {
+    let {id} = req.body;
+    try{
+        await fileDB.cancelPublicShare(id);
+        res.status(200).send({stat:"success"});
+    }catch(err){
+        res.status(200).send({stat:"fail"});
+    }
+})
+
+
+
 function verifyToken (req, res, next) {
     let {pctoken} = req.headers;
     jwt.verify(pctoken, JWTKEY, (err, authData) => {

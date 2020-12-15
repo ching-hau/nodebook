@@ -1,4 +1,3 @@
-
 const save_as = async () => {
     let motherDivData = document.querySelector("#motherDiv").innerHTML;
     let titleTextDiv = document.querySelector("#childTitle");
