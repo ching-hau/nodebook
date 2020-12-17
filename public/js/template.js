@@ -69,7 +69,7 @@ const publicCheck = async (projectID) => {
         urlDiv.classList.add("publicRegion")
         urlDivChild.innerHTML = "<strong>Public URL:</strong>";
         urlInput.id = "pURL";
-        urlInput.value = "https://nicknick.club/publicFile.html?publicFile="+publicInfo.endPoints
+        urlInput.value = "https://nodebook.club/publicFile.html?publicFile="+publicInfo.endPoints
         urlBtn.classList.add("btn");
         urlBtn.classList.add("btn-dark");
         urlBtn.classList.add("copyBtn");

@@ -42,10 +42,16 @@ const save_as = async () => {
             position: "top-end",
             icon: "success",
             title: `You saved this file as ${title}.`,
-            showConfirmButton: false,
-            timer: 1500
+            showConfirmButton: true,
+            confirmButtonText:"ok"
+        }).then((res) =>{
+            console.log(res.isConfirmed)
+                
+            window.location.replace(`/template.html?id=${result.project_id}`)
         })
-        window.location.replace(`/template.html?id=${result.project_id}`);
+            
+            
+        
     }else{
         //alert("This file is not saved.")
         Swal.fire({
@@ -53,7 +59,7 @@ const save_as = async () => {
             icon: "error",
             title: `This file is not saved.`,
             showConfirmButton: false,
-            timer: 1500
+            timer: 2000
         })
     }
 }
