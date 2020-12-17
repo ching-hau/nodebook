@@ -36,7 +36,14 @@ const generateFile = async (id) => {
         localStorage.setItem(rawData.file_name, JSON.stringify(rawData))
         importSrc()
     }else if(rawData.stat === "invalid"){
-        alert("Invalid token to access this file.");
+        Swal.fire({
+            position: "top-end",
+            icon: "error",
+            title: `You do not have authority to access to this file.`,
+            showConfirmButton: false,
+            timer: 1500
+        })
+        //alert("Invalid token to access this file.");
         window.location.replace("/emptyFile.html")
     }
 }

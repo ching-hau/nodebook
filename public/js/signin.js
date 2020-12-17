@@ -110,7 +110,15 @@ function signUpBtn(){
     .then(result => {
         if(result.stat == "Welcome to programing chatting!"){
             console.log(result)
-            alert("You can log in now!!!");
+            //alert("You can log in now!!!");
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: `Welcome to programing chatting!`,
+                text: "You can log in now.",
+                showConfirmButton: false,
+                timer: 1500
+            })
         }
     })  
 }

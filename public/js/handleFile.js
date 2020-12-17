@@ -2,7 +2,14 @@ const save_as = async () => {
     let motherDivData = document.querySelector("#motherDiv").innerHTML;
     let titleTextDiv = document.querySelector("#childTitle");
     if(!titleTextDiv){
-        return alert("You should enter the file name first")
+        Swal.fire({
+            position: "top-end",
+            icon: "error",
+            title: `You should enter the file name first.`,
+            showConfirmButton: false,
+            timer: 1500
+        })
+        return //alert("You should enter the file name first")
     }
     let title = titleTextDiv.innerText;
     let data = {
@@ -19,21 +26,49 @@ const save_as = async () => {
     }
     const result = await fetch("/file/saveas", config).then(res=> {return res.json()})
     if(result.stat === "repeated file name"){
-        alert("This file name was used. Please try a new one.")
+        //alert("This file name was used. Please try a new one.")
+        Swal.fire({
+            position: "top-end",
+            icon: "error",
+            title: `This file name was used. Please try a new one.`,
+            showConfirmButton: false,
+            timer: 1500
+        })
     }else if(result.stat == "success"){
         localStorage.setItem(result.file_name, JSON.stringify(result));
         console.log(result)
-        alert(`You saved this file as ${title}.`)
+        //alert(`You saved this file as ${title}.`)
+        Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: `You saved this file as ${title}.`,
+            showConfirmButton: false,
+            timer: 1500
+        })
         window.location.replace(`/template.html?id=${result.project_id}`);
     }else{
-        alert("This file is not saved.")
+        //alert("This file is not saved.")
+        Swal.fire({
+            position: "top-end",
+            icon: "error",
+            title: `This file is not saved.`,
+            showConfirmButton: false,
+            timer: 1500
+        })
     }
 }
 
 const save = async () => {
     let titleTextDiv = document.querySelector("#childTitle");
     if(!titleTextDiv){
-        return alert("You should enter the file name first")
+        Swal.fire({
+            position: "top-end",
+            icon: "error",
+            title: `You should enter the file name first`,
+            showConfirmButton: false,
+            timer: 1500
+        })
+        return //alert("You should enter the file name first")
     }
     let title = titleTextDiv.innerText;
     let content = JSON.parse(localStorage.getItem(title));
@@ -56,9 +91,23 @@ const save = async () => {
         const result = await fetch("/file/save", config).then(res=> {return res.json()});
         console.log(result);
         localStorage.setItem(result.file_name, JSON.stringify(result))
-        alert(`${title} was saved.`)
+        //alert(`${title} was saved.`)
+        Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: `${title} was saved.`,
+            showConfirmButton: false,
+            timer: 1500
+        })
     }else{
-        alert("You have never saved this file. Please save this file as the new one.")
+        //alert("You have never saved this file. Please save this file as the new one.")
+        Swal.fire({
+            position: "top-end",
+            icon: "error",
+            title: `You have never saved this file. Please save this file as the new one.`,
+            showConfirmButton: false,
+            timer: 1500
+        })
     }
 }
 
@@ -77,7 +126,14 @@ const deleteFile = async () => {
     }
     const deleteResult = await fetch("/file/delete", config).then(res => {return res.json()});
     if(deleteResult.stat === "success"){
-        alert(`${title} has been deleted.`);
+        //alert(`${title} has been deleted.`);
+        Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: `${title} has been deleted.`,
+            showConfirmButton: false,
+            timer: 1500
+        })
         window.location.replace("/userFile.html");
     }
 }

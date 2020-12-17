@@ -23,7 +23,6 @@ function extractError(err){
 
 const runChildProcess = (path) => {
     return new Promise((resolve, reject) => {
-        console.log("run the code!");
         let command = "node --max-old-space-size=10 " + path;
         let workerProcess = childProcess.exec(command);
         let output = ''

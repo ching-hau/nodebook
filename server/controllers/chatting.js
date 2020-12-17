@@ -8,13 +8,25 @@ const goForSocket2 = () => {
     })
 }
 
+
+
 const socketChat = (socket) => {
     const users = {}
     const rooms = {}
+    socket.emit("new")
     socket.on("new-room", (room)=>{
         rooms[socket.id] = room;
     })
+    socket.on("tokem", (tokem)=>{
+        console.log(tokem)
+    })
+
+    socket.on("enterText", (text) => {
+        console.log(text);
+        socket.to(rooms[socket.id]).emit("insertText", text);
+    })
     socket.on("new-user", (name) => {
+        console.log(name)
         users[socket.id] = name;
         let newRoom = rooms[socket.id]
         socket.join(newRoom)

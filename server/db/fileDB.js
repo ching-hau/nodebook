@@ -22,10 +22,8 @@ const saveNewFileContent = (data) => {
             errFuncion(err, errMessage, reject);
             console.log("connected to sql pool in fileDB successfully");
             connection.query(sqlGetFileByName, dataBinding1, (err, result, fields) => {
-                console.log(result)
                 if(result.length == 0){
                     connection.query(sqlInsertFileContent, dataBinding2, (err, result, fields) => {
-                        console.log("here")
                         errFuncion(err, errMessage, reject)
                         let sqlGetInsertId = "SELECT LAST_INSERT_ID() AS project_id;";
                         connection.query(sqlGetInsertId, (err, result, fields) => {
@@ -35,7 +33,6 @@ const saveNewFileContent = (data) => {
                         })
                     });
                 }else{
-                    console.log("reject")
                     reject({stat:"repeated file name"})
                     connection.release();
                 }
@@ -74,7 +71,6 @@ const updateFileContent = (data) => {
         let sqlCheckIdExistence = "SELECT id FROM user_file WHERE id = (?);"
         let sqlUpdateFileContent = "UPDATE user_file SET file_content = (?) WHERE id = (?);"
         let {project_id, file_content} = data;
-        console.log(project_id)
         con.getConnection((err, connection) => {
             connection.query(sqlCheckIdExistence, project_id, (err, result, fields) => {
                 if(result){
@@ -97,7 +93,6 @@ const getFileById = (id) => {
     return new Promise((resolve, reject) => {
         let sqlGetFileById = "SELECT * FROM user_file WHERE id = (?);";
         con.query(sqlGetFileById, id, (err, result, field) => {
-            console.log(result)
             errFuncion(err, "", reject);
             if(result.length > 0){
                 resolve(result);

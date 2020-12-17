@@ -24,7 +24,14 @@ const verifyUser = async () => {
         }
         let allIDs = await fetch("/file/user", config).then(result => {return result.json()});
         if( allIDs.stat == "fail token"){
-            alert("Please sign in again.");
+            //alert("Please sign in again.");
+            Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: `Please sign in again.`,
+                showConfirmButton: false,
+                timer: 1500
+            })
             window.location.replace("/");
         }
         const filesDiv = document.querySelector(".userFiles");
@@ -45,7 +52,13 @@ const verifyUser = async () => {
             
         });
     }else{
-        alert("Please Sign in first");
+        Swal.fire({
+            position: "top-end",
+            icon: "error",
+            title: `Please sign in first.`,
+            showConfirmButton: false,
+            timer: 1500
+        })
         window.location.replace("/")
     }
 }
