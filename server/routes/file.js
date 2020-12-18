@@ -101,7 +101,6 @@ router.get("/allProjectsId", verifyToken, async (req, res) => {
 router.post("/user", verifyToken, async(req, res) => {
     let userMail = req.userMail;
     let allId = await fileDB.getAllProjectIdByUser(userMail);
-    console.log(allId)
     res.status(200).send(allId);
 })
 
@@ -129,7 +128,6 @@ router.post("/deleteForever", verifyToken, async(req, res) => {
     let {projectID} = req.body;
     try{
         let deleteForeverResult = await fileDB.deleteFileById(projectID);
-        console.log(deleteForeverResult)
         res.status(200).send(deleteForeverResult);
     } catch(err){
         res.status(200).send(err);
@@ -148,7 +146,6 @@ router.get("/public", async (req, res) => {
         let projectId = await fileDB.getPublicData(publicFile);
         console.log(projectId.file_id)
         let rawData = await fileDB.getFileById(projectId.file_id);
-        console.log(rawData)
         res.status(200).send({stat:"success", file_content: rawData[0].file_content})
     } catch(err){
         res.status(200).send({stat:"fail"})
@@ -157,7 +154,6 @@ router.get("/public", async (req, res) => {
 
 router.get("/filePublicCheck", async (req, res) => {
     let {id} = req.query;
-    console.log(id)
     try{
         let result = await fileDB.checkPublicFile(id);
         if(result[0]){
@@ -199,12 +195,10 @@ function verifyToken (req, res, next) {
     let {pctoken} = req.headers;
     jwt.verify(pctoken, JWTKEY, (err, authData) => {
         if(err) {
-            console.log(err);
             res.status(200).send({"stat": "fail token"})
         }else{
             userMail = authData.userInfo.user.email;
             req.userMail = userMail;
-            console.log("done")
             next();
         }
     });

@@ -1,5 +1,6 @@
 const urlParams = new URLSearchParams(window.location.search);
 const projectID = urlParams.get('id');
+const socket = io();
 
 const importSrc = () => {
     return new Promise((resolve, reject) => {
@@ -51,7 +52,6 @@ const generateFile = async (id) => {
 const publicCheck = async (projectID) => {
     let url = "/file/filePublicCheck?id=" + projectID;
     let publicInfo = await fetch(url).then(res => { return res.json()});
-    console.log(publicInfo)
     const functionMenu = document.querySelector(".functionMenu")
     if(publicInfo.stat !== "fail"){
         console.log(publicInfo) 
@@ -81,7 +81,6 @@ const publicCheck = async (projectID) => {
         functionMenu.append(urlDiv);
 
     }else{
-        console.log(publicInfo)
         let aElement = document.createElement("a");
         aElement.classList.add("dropdown-item");
         aElement.classList.add("sharePublic");
@@ -98,4 +97,8 @@ const publicCheck = async (projectID) => {
 if(projectID){
     generateFile(projectID);
     publicCheck(projectID);
+
 }
+
+
+

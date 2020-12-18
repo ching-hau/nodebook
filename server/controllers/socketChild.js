@@ -1,10 +1,21 @@
 const cp = require("./childProcessCon");
 
 const socketChild = (socket) => {
+    let room;
+    socket.on("start to connect", (msg) => {
+        room = msg
+        socket.join(room)
+        socket.emit("join room", `join room ${msg}`)
+        socket.to(room).emit("update or not", "any update?")
+    })
+    socket.on("the latest status", (result) => {
+        socket.to(room).emit("update the content", result)
+    })
+
+
     socket.on("send code", async (data) => {
         let {content1, content2, file1, file2, index} = data;
         
-        console.log(data)
         let path1 = process.env.PROCESS_PATH +`${file1}.js`;
         let path2 = process.env.PROCESS_PATH +`${file2}.js`;
         await cp.writeFile(content1, path1);

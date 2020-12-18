@@ -1,4 +1,7 @@
-const socket = io();
+
+if(!socket){
+    const socket = io();
+}
 let dragData;
 
 // Function for event
@@ -76,17 +79,20 @@ const dropped = (e) => {
         allSet.insertBefore(allItem[oldIndex], originalInputForm);
         allCodeResult.forEach(element => element.remove());
         dragData=""
+        socketUpdate();
     }
     else if(newIndex > oldIndex){
         allItem[oldIndex].remove();
         allSet.insertBefore(allItem[oldIndex], allItem[newIndex+1]);
         allCodeResult.forEach(element => element.remove());
         dragData="";
+        socketUpdate()
     }else if(newIndex < oldIndex){
         allItem[oldIndex].remove();
         allSet.insertBefore(allItem[oldIndex], allItem[newIndex]);
         allCodeResult.forEach(element => element.remove());
         dragData="";
+        socketUpdate();
     }
 }
 
@@ -124,7 +130,8 @@ const modifyTitle = (e) => {
     }
     if(title != ""){
         appendTitle(title);
-        e.target.remove()
+        socketUpdate();
+        e.target.remove();
     }
 }
 
@@ -145,11 +152,16 @@ const transToForm = (e) => {
 }
 
 const submitOriginalForm = (e) => {
+    const textArea = document.querySelector("textarea");
+    const originalInputForm = document.querySelector("#inputForm")
     e.preventDefault();
+    console.log(1)
     let inputContent = textArea.value;
+    console.log(inputContent)
     if(inputContent != ""){
         appendText(inputContent, originalInputForm);
         textArea.value = "";
+        socketUpdate();
     }
 }
 
@@ -216,9 +228,12 @@ const modifyText = (originalText, insertPos, currentHeight) => {
             originalInputForm.style = "display:block";
             e.target.parentNode.remove()
         }
+        socketUpdate();
     })
     return newInputForm;
 }
+
+
 
 const addCodingClass = (inputTextP, motherDiv) => {
     const currentStatus = document.querySelector("label.active").innerText;
@@ -320,6 +335,7 @@ const insertSocektResultSep = (result, index) => {
     codingResultDiv.classList.add("text-left");
     codingResultDiv.innerText = "[Output]:\n" + result;
     insertAfter(codingResultDiv, currentCodingLi);
+    socketUpdate();
 }
 
 const socketRunCodeSep = (e) => {
@@ -372,10 +388,88 @@ addEventToMultiItems("dragenter", allMovalbleDiv, positionJudge);
 addEventToMultiItems("dragover", allMovalbleDiv, cancelDefault);
 addEventToMultiItems("click", allCodingBtn, socketRunCodeSep);
 
-// textArea.addEventListener("input", autoResize);
-// textArea.addEventListener("click", getCorrectFormat);
-// titleInputForm.addEventListener("submit", modifyTitle);
-// allInputDiv.addEventListener("click", transToForm);
-// originalInputForm.addEventListener("submit", submitOriginalForm);
+
+
+function addEventToExistedItems(){
+    const originalInputForm = document.querySelector("#inputForm")
+    const textArea = document.querySelector("textarea");
+    const allInputDiv = document.querySelector("#allMovable");
+    const titleInputForm = document.querySelector("#titleForm");
+    const childTitleDiv = document.querySelector("#childTitle");
+    
+    addEventToSingleItem("input", textArea, autoResize);
+    addEventToSingleItem("click", textArea, getCorrectFormat);
+    addEventToSingleItem("submit", titleInputForm, modifyTitle);
+    addEventToSingleItem("click", allInputDiv, transToForm);
+    addEventToSingleItem("submit", originalInputForm, submitOriginalForm);
+    addEventToSingleItem("click", childTitleDiv, createTitleForm)
+    
+    const allMovalbleDiv = document.querySelectorAll(".movable");
+    const allCodingBtn = document.querySelectorAll(".codingBtn");
+    
+    addEventToMultiItems("dragstart", allMovalbleDiv, dragStart);
+    addEventToMultiItems("drop", allMovalbleDiv, dropped);
+    addEventToMultiItems("dragenter", allMovalbleDiv, positionJudge);
+    addEventToMultiItems("dragover", allMovalbleDiv, cancelDefault);
+    addEventToMultiItems("click", allCodingBtn, socketRunCodeSep);
+}
+
+
+
+
+
+
+
+
+// Socket General function
+const socketEmitEvent = (event, obj) => {
+    if(projectID){
+        socket.emit(event, obj)
+    }
+}
+const updateStatus = () => {
+    const titleHTML = document.querySelector("#title").innerHTML;
+    console.log(titleHTML)
+    const contentHTML = document.querySelector("#allMovable").innerHTML;
+    console.log(contentHTML)
+    return {title: titleHTML, content: contentHTML}
+}
+
+
+
+// Socket on event
+if(projectID){
+    socket.on("join room", (msg) => {
+        console.log(msg)
+    });
+    socket.on("update or not", (msg) => {
+        let currentContent = updateStatus();
+        socket.emit("the latest status", currentContent)
+    });
+    socket.on("update the content", (result) => {
+        document.querySelectorAll("#movable").forEach(element => {
+            element.remove()
+        });
+        document.querySelector("#childTitle").remove()
+        console.log(result)
+        let titleDiv = document.querySelector("#title");
+        let movableDiv = document.querySelector("#allMovable");
+        titleDiv.innerHTML = result.title;
+        movableDiv.innerHTML = result.content;
+        addEventToExistedItems()
+    })
+}
+
+socketEmitEvent("start to connect", projectID);
+
+const socketUpdate = () => {
+    let currentContent = updateStatus();
+    socketEmitEvent("the latest status", currentContent)
+}
+
+
+
+
+
 
 
