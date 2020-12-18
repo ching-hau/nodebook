@@ -1,4 +1,5 @@
 const socket = io();
+let dragData;
 
 // Function for event
 const insertAfter = (newNode, existingNode) => {
@@ -31,7 +32,28 @@ const dragStart = (e) => {
     let allItem = document.querySelectorAll(".movable");
     let index = Array.from(allItem).indexOf(e.target);
     e.dataTransfer.setData('text/plain', index);
+    dragData = index
 }
+
+const positionJudge = (e) => {
+    let lastDivP1 = document.querySelector(".currentPosition");
+    let lastDivP2 = document.querySelector(".currentLastPosition");
+     console.log(dragData)
+    if(lastDivP1){
+        lastDivP1.classList.remove("currentPosition")
+    }
+    if(lastDivP2){
+        lastDivP2.classList.remove("currentLastPosition")
+    }
+    let allMovalbleDiv = document.querySelectorAll("p.newText")
+    let currentIndex = Array.from(allMovalbleDiv).indexOf(e.target);
+    if(currentIndex > dragData){
+        e.target.classList.add("currentLastPosition");
+    }else if(currentIndex < dragData){
+        e.target.classList.add("currentPosition");
+    }
+}
+
 
 const dropped = (e) => {
     cancelDefault(e);
@@ -41,19 +63,30 @@ const dropped = (e) => {
     let droppedDiv = getCurrentDiv(allItem, e);
     let oldIndex = e.dataTransfer.getData('text/plain');
     let newIndex = Array.from(allItem).indexOf(droppedDiv);
+    let lastDivP1 = document.querySelector(".currentPosition");
+    let lastDivP2 = document.querySelector(".currentLastPosition");
+    if(lastDivP1){
+        lastDivP1.classList.remove("currentPosition")
+    }
+    if(lastDivP2){
+        lastDivP2.classList.remove("currentLastPosition")
+    }
     if(newIndex == (allItem.length-1)){
         console.log("it is here")
         allSet.insertBefore(allItem[oldIndex], originalInputForm);
-        allCodeResult.forEach(element => element.remove())
+        allCodeResult.forEach(element => element.remove());
+        dragData=""
     }
     else if(newIndex > oldIndex){
         allItem[oldIndex].remove();
         allSet.insertBefore(allItem[oldIndex], allItem[newIndex+1]);
-        allCodeResult.forEach(element => element.remove())
+        allCodeResult.forEach(element => element.remove());
+        dragData="";
     }else if(newIndex < oldIndex){
         allItem[oldIndex].remove();
         allSet.insertBefore(allItem[oldIndex], allItem[newIndex]);
-        allCodeResult.forEach(element => element.remove())
+        allCodeResult.forEach(element => element.remove());
+        dragData="";
     }
 }
 
@@ -135,7 +168,7 @@ const appendText = (text, insertPos) => {
     inputTextDiv.classList.add("movable");
     inputTextDiv.addEventListener('dragstart', dragStart);
     inputTextDiv.addEventListener('drop', dropped);
-    inputTextDiv.addEventListener('dragenter', cancelDefault);
+    inputTextDiv.addEventListener('dragenter', positionJudge);
     inputTextDiv.addEventListener('dragover', cancelDefault);
     allInputDiv.insertBefore(inputTextDiv, insertPos);
 }
@@ -335,7 +368,7 @@ const allCodingBtn = document.querySelectorAll(".codingBtn");
 
 addEventToMultiItems("dragstart", allMovalbleDiv, dragStart);
 addEventToMultiItems("drop", allMovalbleDiv, dropped);
-addEventToMultiItems("dragenter", allMovalbleDiv, cancelDefault);
+addEventToMultiItems("dragenter", allMovalbleDiv, positionJudge);
 addEventToMultiItems("dragover", allMovalbleDiv, cancelDefault);
 addEventToMultiItems("click", allCodingBtn, socketRunCodeSep);
 
@@ -344,3 +377,5 @@ addEventToMultiItems("click", allCodingBtn, socketRunCodeSep);
 // titleInputForm.addEventListener("submit", modifyTitle);
 // allInputDiv.addEventListener("click", transToForm);
 // originalInputForm.addEventListener("submit", submitOriginalForm);
+
+

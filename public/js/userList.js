@@ -40,6 +40,7 @@ const verifyUser = async () => {
             const aElement = document.createElement("a");
             aElement.classList.add("dropdown-item");
             aElement.classList.add("navItem");
+            aElement.classList.add("trashList");
             aElement.target="_blank"
             aElement.innerText = element.file_name
             if(element.file_delete === "0"){

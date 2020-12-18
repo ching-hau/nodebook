@@ -38,6 +38,11 @@ textarea{
 
 }
 
+.deleteBtn{
+    font-size: 6px !important;
+    padding-left: 0px !important;
+}
+
 .movable > p{
     margin-left: 0px;
     margin-bottom: 2px !important;
@@ -46,7 +51,19 @@ textarea{
     width:80% !important;
     vertical-align: bottom !important;
     white-space: pre;
+    cursor: grab;
 }
+.movable > p:hover{
+    opacity: 0.7;
+}
+
+.currentPosition{
+    border-top: 3px solid rgba(108, 102, 102, 0.2);
+}
+.currentLastPosition{
+    border-bottom: 3px solid rgba(108, 102, 102, 0.2);
+}
+
 
 #inputForm .movable > form{
     margin-left: 0px;
@@ -113,4 +130,8 @@ textarea{
  .fileFunction{
     padding-left: 10px !important;
     font-size: 15px !important;
+ }
+
+ .list-group{
+     cursor:default !important;
  }

@@ -144,3 +144,39 @@ const deleteFile = async () => {
     }
 }
 
+const deleteAll = async () => {
+    Swal.fire({
+        title: 'Do you want to clear trashes?',
+        showDenyButton: true,
+        confirmButtonText: `Yes, I will never regret.`,
+        denyButtonText: `No, I will need them.`,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let deletedFileID = []
+            let data = {
+                token: localStorage.getItem("pcToken"),
+            }
+            let config = {
+                method:'POST',
+                headers:{
+                    'Content-Type': 'application/json',
+                    "pcToken":localStorage.getItem("pcToken"),
+                },
+                body: JSON.stringify(data)
+            }
+            fetch("/file/deleteAll", config)
+            .then(result => {return result.json()})
+            .then(result => {
+                console.log(result)
+                if(result.stat == "success"){
+                    Swal.fire('Clear!!!', '', 'success')
+                    let allDeletedFieA = document.querySelectorAll(".trashList")
+                    allDeletedFieA.forEach(element => {
+                        element.remove();
+                    })
+                }
+            })
+            //Swal.fire('Clear!!!', '', 'success')
+        } 
+    })
+}

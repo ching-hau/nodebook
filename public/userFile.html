@@ -72,6 +72,8 @@
                         Trash
                     </span>
                     <div class="nav nav-list collapse userTrashes" id="trash">
+                        <button class="btn deleteBtn" onclick="deleteAll();">Clear All</button>
+                        <hr size="8px" width="100%">
                     </div>
                 </li>
             </ul>
@@ -91,7 +93,8 @@
                 <img src="img/menu.png" class="icons" height="20px">
                 Menu
             </button>
- 
+
+
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -101,7 +104,6 @@
  
               <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                 <!-- <img src="img/star.png" class="icons" height="35px"> -->
-
                 <button class="btn btn-light" onclick="save_as();">Save as</button>
                 <button class="btn btn-light" onclick="save();">Save</button>
                 <!-- <li class="nav-item active">
@@ -130,7 +132,8 @@
                         </div> -->
                     </div>
                 </li>
-                
+                <input type="checkbox" checked data-toggle="toggle" data-onstyle="secondary" id="darkMode">
+
               </ul>
             </div>
           </nav>
@@ -150,6 +153,7 @@
                 <input type="radio" name="options" id="option4"> Coding
             </label>
         </div>
+
         <div id="motherDiv">
             <div id="title" class=".container w-75">
                 <form id="titleForm">
@@ -175,6 +179,7 @@
     <script src = "js/nav.js"></script>
     <script src = "js/handleFile.js"></script>
     <script src = "js/userList.js"></script>
+    
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 </body>

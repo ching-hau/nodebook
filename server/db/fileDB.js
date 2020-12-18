@@ -144,6 +144,16 @@ const deleteFileById = (id) => {
     })
 }
 
+const clearDeletedFileByUserMail = (userMail) => {
+    return new Promise((resolve, reject) => {
+        let sqlClearDeletedFile = "DELETE FROM user_file WHERE file_delete = 1 AND user_email = (?);";
+        con.query(sqlClearDeletedFile, userMail, (err, result, field) => {
+            errFuncion(err, "", reject);
+            resolve({stat:"success"});
+        })
+    })
+}
+
 const shareToPublic = (id) => {
     return new Promise((resolve, reject) => {
         let endPoints = Date.now();
@@ -205,7 +215,8 @@ module.exports = {
     shareToPublic,
     getPublicData,
     checkPublicFile,
-    cancelPublicShare
+    cancelPublicShare,
+    clearDeletedFileByUserMail
 }
 
 

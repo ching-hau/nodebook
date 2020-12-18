@@ -136,6 +136,12 @@ router.post("/deleteForever", verifyToken, async(req, res) => {
     }
 })
 
+router.post("/deleteAll", verifyToken, async (req, res) => {
+    let userMail = req.userMail;
+    let deleteResult = await fileDB.clearDeletedFileByUserMail(userMail);
+    res.status(200).send(deleteResult)
+})
+
 router.get("/public", async (req, res) => {
     let {publicFile} = req.query;
     try{
@@ -185,6 +191,7 @@ router.post("/cancelPublic", async (req, res) => {
         res.status(200).send({stat:"fail"});
     }
 })
+
 
 
 
