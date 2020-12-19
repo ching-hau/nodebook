@@ -98,9 +98,22 @@ const darkSwitch = (e) => {
 }
 
 
+const updatePageTitle = async () => {
+    const currentTitleName = document.querySelector("#title").innerText;
+    document.querySelector("title").innerText = currentTitleName;
+}
+
+const generatePublicPage = async (projectID) => {
+    await generatePublicFile(projectID);
+    await updatePageTitle();
+}
+
 darkSwitchInput.parentNode.addEventListener("click", darkSwitch)
 
 
 if(publicfileId){
-    generatePublicFile()
+    generatePublicPage(publicfileId)
 }
+
+
+

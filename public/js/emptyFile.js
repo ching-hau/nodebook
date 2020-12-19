@@ -130,6 +130,8 @@ const modifyTitle = (e) => {
     }
     if(title != ""){
         appendTitle(title);
+        const pageTitle = document.querySelector("title")
+        pageTitle.innerText = title
         socketUpdate();
         e.target.remove();
     }
@@ -232,7 +234,6 @@ const modifyText = (originalText, insertPos, currentHeight) => {
     })
     return newInputForm;
 }
-
 
 
 const addCodingClass = (inputTextP, motherDiv) => {
@@ -432,7 +433,8 @@ const updateStatus = () => {
     console.log(titleHTML)
     const contentHTML = document.querySelector("#allMovable").innerHTML;
     console.log(contentHTML)
-    return {title: titleHTML, content: contentHTML}
+    const pageTitle = document.querySelector("title").innerText;
+    return {title: titleHTML, content: contentHTML, pageTitle: pageTitle}
 }
 
 
@@ -454,8 +456,10 @@ if(projectID){
         console.log(result)
         let titleDiv = document.querySelector("#title");
         let movableDiv = document.querySelector("#allMovable");
+        let pageTitle = document.querySelector("title");
         titleDiv.innerHTML = result.title;
         movableDiv.innerHTML = result.content;
+        pageTitle.innerText = result.pageTitle;
         addEventToExistedItems()
     })
 }

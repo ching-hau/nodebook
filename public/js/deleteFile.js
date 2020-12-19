@@ -70,12 +70,20 @@ const deleteForever = async () => {
     }else{
         alert("You did not delete it.")
     }
+}
 
-
-
+const updatePageTitle = async () => {
+    const currentTitleName = document.querySelector("#title").innerText;
+    document.querySelector("title").innerText = currentTitleName;
 }
 
 
+
+const generateDeletePage = async (projectID) => {
+    await generateFile(projectID);
+    await updatePageTitle();
+}
+
 if(projectID){
-    generateFile(projectID)
+    generateDeletePage(projectID)
 }

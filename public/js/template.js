@@ -79,7 +79,6 @@ const publicCheck = async (projectID) => {
         urlDiv.append(urlInput);
         urlDiv.append(urlBtn);
         functionMenu.append(urlDiv);
-
     }else{
         let aElement = document.createElement("a");
         aElement.classList.add("dropdown-item");
@@ -92,13 +91,23 @@ const publicCheck = async (projectID) => {
     
 
 }
+const updatePageTitle = async () => {
+        const currentTitleName = document.querySelector("#title").innerText;
+        document.querySelector("title").innerText = currentTitleName;
+}
 
 
-if(projectID){
-    generateFile(projectID);
-    publicCheck(projectID);
+const summarizePage = async (projectID) => {
+    await generateFile(projectID);
+    await updatePageTitle();
+    await publicCheck(projectID);
+
 
 }
 
 
+
+if(projectID){
+    summarizePage(projectID);
+}
 
