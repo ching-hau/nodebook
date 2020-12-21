@@ -22,7 +22,7 @@ const save_as = async () => {
             'Content-Type': 'application/json',
             "pcToken":localStorage.getItem("pcToken"),
         },
-        body: JSON.stringify(data).replace(/white|black|102/g, "")
+        body: JSON.stringify(data).replace(/white|black/g, "")
     }
     const result = await fetch("/file/saveas", config).then(res=> {return res.json()})
     if(result.stat === "repeated file name"){
@@ -85,7 +85,7 @@ const save = async () => {
                 'Content-Type': 'application/json',
                 "pcToken":localStorage.getItem("pcToken"),
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(data).replace(/white|black/g, "")
         }
         const result = await fetch("/file/save", config).then(res=> {return res.json()});
         localStorage.setItem(result.file_name, JSON.stringify(result))
