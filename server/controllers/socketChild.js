@@ -11,9 +11,11 @@ const socketChild = (socket) => {
     })
     socket.on("the latest status", (result) => {
         socket.to(room).emit("update the content", result)
+    });
+    socket.on("new project connected", () => {
+        socket.join(socket.handshake.address);
     })
     socket.on("click to change mode", (msg) => {
-        console.log(socket.handshake.address)
         if(msg === "normal"){
             socket.to(socket.handshake.address).emit("change mode syn", {target:{className:"off"}})
         } else{

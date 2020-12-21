@@ -597,16 +597,17 @@ if(projectID){
     })
 }
 
-socketEmitEvent("start to connect", projectID);
 
+socketEmitEvent("start to connect", projectID);
 const socketUpdate = () => {
     let currentContent = updateStatus();
     socketEmitEvent("the latest status", currentContent)
 }
 
+socket.on("update user list", () => {
+    window.location.reload();
+})
 
-
-
-
-
-
+if(!projectID){
+    socket.emit("new project connected")
+}

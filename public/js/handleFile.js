@@ -179,8 +179,3 @@ const updateToNormalMode = (data) => {
     data.replace(/black/g, white)
 }
 
-
-
-socket.on("update user list", () => {
-    window.location.reload();
-})
