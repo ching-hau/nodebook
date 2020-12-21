@@ -5,12 +5,22 @@ const socketChild = (socket) => {
     socket.on("start to connect", (msg) => {
         room = msg
         socket.join(room)
+        socket.join(socket.handshake.address)
         socket.emit("join room", `join room ${msg}`)
         socket.to(room).emit("update or not", "any update?")
     })
     socket.on("the latest status", (result) => {
         socket.to(room).emit("update the content", result)
     })
+    socket.on("click to change mode", (msg) => {
+        console.log(socket.handshake.address)
+        if(msg === "normal"){
+            socket.to(socket.handshake.address).emit("change mode syn", {target:{className:"off"}})
+        } else{
+            socket.to(socket.handshake.address).emit("change mode syn", {target:{className:"on"}})
+        }
+        
+    });
 
 
     socket.on("send code", async (data) => {

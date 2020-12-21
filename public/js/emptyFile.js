@@ -11,21 +11,32 @@ const insertAfter = (newNode, existingNode) => {
 
 const getCurrentStyle = () => {
     const currentStatus = document.querySelector("label.active").innerText;
+    const darkModeStatus = document.querySelector("#darkMode").parentNode.className.indexOf("off");
+    let color1;
+    let color2;
+    if(darkModeStatus === -1){
+        color1 = "background-color: white; color: black;"
+        color2 = "background-color: #D3D3D3; color: black;"
+    }else{
+        color1 = "background-color: black; color:white;"
+        color2 = "background-color: #666666; color:white;"
+    }
     let fontSize;
     switch(currentStatus){
         case "L-Text":
-            fontSize = "130%;font-weight:bold;"
+            fontSize = "130%;font-weight:bold;" + color1
             break;
         case "M-Text":
-            fontSize = "120%"
+            fontSize = "120%;" + color1;
             break;
         case "S-Text":
-            fontSize = "100%"
+            fontSize = "100%;" + color1
             break;
             case "Coding":
-            fontSize = "90%;background-color: #D3D3D3; padding: 10px"
+            fontSize = "90%; padding: 10px;" + color2
             break;
     }
+    console.log(darkModeStatus, color1, color2)
     return fontSize;
 }
 
@@ -251,7 +262,6 @@ const addCodingClass = (inputTextP, motherDiv) => {
         codingButton.classList.add("myButton");
         codingButton.innerText = "RUN";
         codingButton.addEventListener("click", socketRunCodeSep);
-        console.log(inputTextP)
         insertAfter(codingButton, inputTextP)
     }
 }
@@ -335,6 +345,13 @@ const insertSocektResultSep = (result, index) => {
     codingResultDiv.id = "sepResult";
     codingResultDiv.classList.add("text-left");
     codingResultDiv.innerText = "[Output]:\n" + result;
+    const darkMode = document.querySelector(".off")
+    if(darkMode){
+        codingResultDiv.style.borderColor = "white"
+    }else{
+        codingResultDiv.style.borderColor = "black"
+    }
+    
     insertAfter(codingResultDiv, currentCodingLi);
     socketUpdate();
 }
@@ -415,13 +432,6 @@ function addEventToExistedItems(){
     addEventToMultiItems("click", allCodingBtn, socketRunCodeSep);
 }
 
-
-
-
-
-
-
-
 // Socket General function
 const socketEmitEvent = (event, obj) => {
     if(projectID){
@@ -430,12 +440,146 @@ const socketEmitEvent = (event, obj) => {
 }
 const updateStatus = () => {
     const titleHTML = document.querySelector("#title").innerHTML;
-    console.log(titleHTML)
     const contentHTML = document.querySelector("#allMovable").innerHTML;
-    console.log(contentHTML)
     const pageTitle = document.querySelector("title").innerText;
     return {title: titleHTML, content: contentHTML, pageTitle: pageTitle}
 }
+
+
+
+function changeClass(array, oldClass, newClass, mode){
+    array.forEach(element => {
+        element.classList.add(newClass);
+        element.classList.remove(oldClass);
+        if(mode === "dark"){
+            element.style.backgroundColor = "black";
+            element.style.color = "white";
+        } else if( mode ==="normal"){
+            element.style.backgroundColor = "#f8f9fa";
+            element.style.color = "black";
+        }
+    })
+}
+
+
+
+const darkSwitch = (e) => {
+    const otherItems = document.querySelector(".otherItems")
+    const sun = document.querySelector(".sun");
+    const moon = document.querySelector(".moon");
+    const body = document.querySelector("body");
+    const newText = document.querySelectorAll(".newText");
+    const motherDiv = document.querySelector("#motherDiv");
+    const codingArea = document.querySelectorAll(".coding");
+    const sepResultArea = document.querySelectorAll("#sepResult");
+    const inputArea = document.querySelector("#inputArea");
+    const dropDownMenu = document.querySelector(".dropdown-menu");
+    const dropDownItems = document.querySelectorAll(".dropdown-item");
+    const titleInput = document.querySelector("#titleInput")
+    if(e.target.className.indexOf("off") == -1){
+        const allBg = document.querySelectorAll(".bg-light");
+        const allBtn = document.querySelectorAll(".btn-light");
+        changeClass(allBg, "bg-light", "bg-black", "dark")
+        changeClass(allBtn, "btn-light", "btn-black", "dark")
+        sun.style.display = "none";
+        moon.style.display = "block";
+        body.style.backgroundColor = "black"
+        motherDiv.style.color = "white"
+        newText.forEach(element => {
+            element.style.backgroundColor = "black"
+            element.style.color = "white"
+        })
+        codingArea.forEach(element => {
+            element.style.backgroundColor = "#666666"
+        });
+        sepResultArea.forEach(element => {
+            element.style.borderColor = "white"
+        });
+        dropDownItems.forEach(element => {
+            element.style.color = "rgba(255, 255, 255)"
+        });
+        if(inputArea){
+            inputArea.style.backgroundColor = "black";
+        }
+        if(dropDownMenu){
+            dropDownMenu.style.backgroundColor = "black";
+        }
+        if(dropDownMenu){
+            dropDownMenu.style.borderColor = "white";
+        }
+        if(otherItems){
+            otherItems.style.color = "rgba(255, 255, 255, .5)"
+        }
+        if(titleInput){
+            titleInput.style.backgroundColor = "black";
+            titleInput.style.color = "white";
+        }
+    }else {
+        const allBg = document.querySelectorAll(".bg-black");
+        const allBtn = document.querySelectorAll(".btn-black");
+        changeClass(allBg, "bg-black", "bg-light", "normal");
+        changeClass(allBtn, "btn-black", "btn-light", "normal");
+        sun.style.display = "block";
+        moon.style.display = "none";
+        body.style.backgroundColor = "white";
+        motherDiv.style.color = "black";
+        newText.forEach(element => {
+            element.style.backgroundColor = "white"
+            element.style.color = "black"
+        })
+        codingArea.forEach(element => {
+            element.style.backgroundColor = "#D3D3D3"
+        });
+        sepResultArea.forEach(element => {
+            element.style.borderColor = "black"
+        });
+        dropDownItems.forEach(element => {
+            element.style.color = "rgba(0, 0, 0)"
+        });
+        if(inputArea){
+            inputArea.style.backgroundColor = "white";
+        }
+        if(dropDownMenu){
+            dropDownMenu.style.backgroundColor = "white";
+        }
+        if(dropDownMenu){
+            dropDownMenu.style.borderColor = "black";
+        }
+        if(otherItems){
+            otherItems.style.color = "rgba(0, 0, 0, .5)"
+        }
+        if(titleInput){
+            titleInput.style.backgroundColor = "white";
+            titleInput.style.color = "black";
+        }
+    }
+}
+const emitChangingMode = () => {
+    const offDiv = document.querySelector(".off");
+    if(offDiv){
+        socket.emit("click to change mode", "normal");
+    }else{
+        socket.emit("click to change mode", "dark");
+    }
+    
+}
+socket.on("change mode syn", (e) => {
+    darkSwitch(e);
+    const darkModeBtnMother = document.querySelector("#darkMode").parentNode;
+    if(e.target.className.indexOf("off") != -1 && darkModeBtnMother.className.indexOf("off") != -1){
+        darkModeBtnMother.classList.remove("off")
+    }else if(e.target.className.indexOf("off") == -1 && darkModeBtnMother.className.indexOf("off") == -1){
+        darkModeBtnMother.classList.add("off")
+    }
+})
+
+
+
+const darkSwitchInput = document.querySelector("#darkMode");
+darkSwitchInput.parentNode.addEventListener("click", darkSwitch)
+darkSwitchInput.parentNode.addEventListener("click", emitChangingMode)
+
+
 
 
 

@@ -49,9 +49,6 @@ const save_as = async () => {
                 
             window.location.replace(`/template.html?id=${result.project_id}`)
         })
-            
-            
-        
     }else{
         //alert("This file is not saved.")
         Swal.fire({

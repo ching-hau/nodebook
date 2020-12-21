@@ -101,8 +101,6 @@ const summarizePage = async (projectID) => {
     await generateFile(projectID);
     await updatePageTitle();
     await publicCheck(projectID);
-
-
 }
 
 

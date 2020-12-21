@@ -136,3 +136,21 @@ textarea{
  .list-group{
      cursor:default !important;
  }
+
+ div > .toggle{
+     height: 33px !important;
+ }
+
+ .favStar{
+     margin-right: 5px;
+ }
+
+
+
+ /* .navbar-light .navbar-nav .nav-link{
+    color: rgba(0,0,0) !important;
+} */
+
+/* .otherItems{
+    color: rgba(0,0,0) !important; 
+} */

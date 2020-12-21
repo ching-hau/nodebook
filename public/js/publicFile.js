@@ -33,8 +33,8 @@ const darkSwitch = (e) => {
     const allCodingArea = document.querySelectorAll(".coding")
     const sepResult = document.querySelectorAll("#sepResult");
     const home = document.querySelector(".home");
-    console.log(home)
-    //normal mode
+    const sun = document.querySelector(".sun");
+    const moon = document.querySelector(".moon")
     if(e.target.className.indexOf("off") == -1){
         totalDiv.style.backgroundColor = "black"
         childTitleDiv.style.color = "white"
@@ -63,6 +63,8 @@ const darkSwitch = (e) => {
             element.style.color = "white"
             element.style.borderColor ="white"
         })
+        sun.style.display = "none";
+        moon.style.display = "block";
         
 
     } else{
@@ -93,7 +95,8 @@ const darkSwitch = (e) => {
             element.style.color = "black"
             element.style.borderColor ="black"
         })
-
+        sun.style.display = "block";
+        moon.style.display = "none";
     }
 }
 
