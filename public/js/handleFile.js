@@ -9,7 +9,7 @@ const save_as = async () => {
             showConfirmButton: false,
             timer: 1500
         })
-        return //alert("You should enter the file name first")
+        return 
     }
     let title = titleTextDiv.innerText;
     let data = {
@@ -22,11 +22,10 @@ const save_as = async () => {
             'Content-Type': 'application/json',
             "pcToken":localStorage.getItem("pcToken"),
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data).replace(/white|black|102/g, "")
     }
     const result = await fetch("/file/saveas", config).then(res=> {return res.json()})
     if(result.stat === "repeated file name"){
-        //alert("This file name was used. Please try a new one.")
         Swal.fire({
             position: "top-end",
             icon: "error",
@@ -36,8 +35,6 @@ const save_as = async () => {
         })
     }else if(result.stat == "success"){
         localStorage.setItem(result.file_name, JSON.stringify(result));
-        console.log(result)
-        //alert(`You saved this file as ${title}.`)
         Swal.fire({
             position: "top-end",
             icon: "success",
@@ -45,12 +42,10 @@ const save_as = async () => {
             showConfirmButton: true,
             confirmButtonText:"ok"
         }).then((res) =>{
-            console.log(res.isConfirmed)
-                
             window.location.replace(`/template.html?id=${result.project_id}`)
+            socket.emit("update file")
         })
     }else{
-        //alert("This file is not saved.")
         Swal.fire({
             position: "top-end",
             icon: "error",
@@ -59,6 +54,7 @@ const save_as = async () => {
             timer: 2000
         })
     }
+    
 }
 
 const save = async () => {
@@ -92,7 +88,6 @@ const save = async () => {
             body: JSON.stringify(data)
         }
         const result = await fetch("/file/save", config).then(res=> {return res.json()});
-        console.log(result);
         localStorage.setItem(result.file_name, JSON.stringify(result))
         //alert(`${title} was saved.`)
         Swal.fire({
@@ -101,7 +96,7 @@ const save = async () => {
             title: `${title} was saved.`,
             showConfirmButton: false,
             timer: 1500
-        })
+        }).then(socket.emit("update file"))
     }else{
         //alert("You have never saved this file. Please save this file as the new one.")
         Swal.fire({
@@ -136,8 +131,10 @@ const deleteFile = async () => {
             title: `${title} has been deleted.`,
             showConfirmButton: false,
             timer: 1500
+        }).then((res) => {
+            window.location.replace("/userFile.html");
+            socket.emit("update file");
         })
-        window.location.replace("/userFile.html");
     }
 }
 
@@ -164,7 +161,6 @@ const deleteAll = async () => {
             fetch("/file/deleteAll", config)
             .then(result => {return result.json()})
             .then(result => {
-                console.log(result)
                 if(result.stat == "success"){
                     Swal.fire('Clear!!!', '', 'success')
                     let allDeletedFieA = document.querySelectorAll(".trashList")
@@ -173,7 +169,18 @@ const deleteAll = async () => {
                     })
                 }
             })
+            .then(socket.emit("update file"))
             //Swal.fire('Clear!!!', '', 'success')
         } 
     })
 }
+
+const updateToNormalMode = (data) => {
+    data.replace(/black/g, white)
+}
+
+
+
+socket.on("update user list", () => {
+    window.location.reload();
+})

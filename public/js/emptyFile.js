@@ -36,7 +36,6 @@ const getCurrentStyle = () => {
             fontSize = "90%; padding: 10px;" + color2
             break;
     }
-    console.log(darkModeStatus, color1, color2)
     return fontSize;
 }
 
@@ -52,7 +51,6 @@ const dragStart = (e) => {
 const positionJudge = (e) => {
     let lastDivP1 = document.querySelector(".currentPosition");
     let lastDivP2 = document.querySelector(".currentLastPosition");
-     console.log(dragData)
     if(lastDivP1){
         lastDivP1.classList.remove("currentPosition")
     }
@@ -86,7 +84,6 @@ const dropped = (e) => {
         lastDivP2.classList.remove("currentLastPosition")
     }
     if(newIndex == (allItem.length-1)){
-        console.log("it is here")
         allSet.insertBefore(allItem[oldIndex], originalInputForm);
         allCodeResult.forEach(element => element.remove());
         dragData=""
@@ -153,7 +150,6 @@ const transToForm = (e) => {
     let currentDiv = getCurrentDiv(allItem, e);
     let allFormNumber = document.querySelectorAll(".inputForm").length;
     if(e.target.className === "newText coding"){
-        console.log("2222")
         removeButton(e)
     }
     if(e.target.tagName == "P" && allFormNumber <2){
@@ -168,9 +164,7 @@ const submitOriginalForm = (e) => {
     const textArea = document.querySelector("textarea");
     const originalInputForm = document.querySelector("#inputForm")
     e.preventDefault();
-    console.log(1)
     let inputContent = textArea.value;
-    console.log(inputContent)
     if(inputContent != ""){
         appendText(inputContent, originalInputForm);
         textArea.value = "";
@@ -357,16 +351,13 @@ const insertSocektResultSep = (result, index) => {
 }
 
 const socketRunCodeSep = (e) => {
-    console.log("socket run code separately");
     let data = getCurrentCode(e);
     socket.emit("send code", data)
-    console.log(e.target);
     insertWaiting(e);
 }
 
 socket.on("send reult", (data) => {
     let {result, index} = data;
-    console.log(result)
     insertSocektResultSep(result, index);
 });
 
@@ -586,7 +577,6 @@ darkSwitchInput.parentNode.addEventListener("click", emitChangingMode)
 // Socket on event
 if(projectID){
     socket.on("join room", (msg) => {
-        console.log(msg)
     });
     socket.on("update or not", (msg) => {
         let currentContent = updateStatus();
@@ -597,7 +587,6 @@ if(projectID){
             element.remove()
         });
         document.querySelector("#childTitle").remove()
-        console.log(result)
         let titleDiv = document.querySelector("#title");
         let movableDiv = document.querySelector("#allMovable");
         let pageTitle = document.querySelector("title");

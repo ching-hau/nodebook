@@ -22,6 +22,10 @@ const socketChild = (socket) => {
         
     });
 
+    socket.on("update file", () => {
+        socket.to(socket.handshake.address).emit("update user list");
+    })
+
 
     socket.on("send code", async (data) => {
         let {content1, content2, file1, file2, index} = data;
