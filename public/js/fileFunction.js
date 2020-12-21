@@ -80,7 +80,7 @@ async function cancelPublic(){
             'Content-Type': 'application/json',
             "pcToken":localStorage.getItem("pcToken"),
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data).replace(/white|black/g, "").replace(/102/g, "211")
     }
     let result = await fetch(url, config).then(res => {return res.json()});
     if(result.stat == "success"){
@@ -115,7 +115,7 @@ async function shareToPublic(){
             'Content-Type': 'application/json',
             "pcToken":localStorage.getItem("pcToken"),
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data).replace(/white|black/g, "").replace(/102/g, "211")
     }
     let result = await fetch(url, config).then(res => {return res.json()});
     if(result.stat == "success"){
