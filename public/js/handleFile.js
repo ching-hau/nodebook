@@ -85,7 +85,7 @@ const save = async () => {
                 'Content-Type': 'application/json',
                 "pcToken":localStorage.getItem("pcToken"),
             },
-            body: JSON.stringify(data).replace(/white|black/g, "")
+            body: JSON.stringify(data).replace(/white|black/g, "").replace(/102/g, "211")
         }
         const result = await fetch("/file/save", config).then(res=> {return res.json()});
         localStorage.setItem(result.file_name, JSON.stringify(result))
