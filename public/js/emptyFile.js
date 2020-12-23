@@ -609,5 +609,5 @@ socket.on("update user list", () => {
 })
 
 if(!projectID){
-    socket.emit("new project connected")
+    socket.emit("new project connected", {token: localStorage.getItem("pcToken")})
 }

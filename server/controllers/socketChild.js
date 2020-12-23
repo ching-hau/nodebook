@@ -1,9 +1,12 @@
 const cp = require("./childProcessCon");
+const jwt = require('jsonwebtoken');
+const JWTKEY = process.env.JWT_KEY
+
 
 const socketChild = (socket) => {
     let room;
+    let userRoom;
     socket.on("start to connect", (msg) => {
-        console.log(socket);
         room = msg
         socket.join(room)
         socket.join(socket.handshake.address)
@@ -13,21 +16,24 @@ const socketChild = (socket) => {
     socket.on("the latest status", (result) => {
         socket.to(room).emit("update the content", result)
     });
-    socket.on("new project connected", () => {
-        console.log(socket)
-        socket.join(socket.handshake.address);
+    socket.on("new project connected", (msg) => {
+        jwt.verify(msg.token, JWTKEY, (err, authData) => {
+            userRoom = authData.email + "ifjiejfi"
+            socket.join(userRoom);
+        })
+        
     })
     socket.on("click to change mode", (msg) => {
         if(msg === "normal"){
-            socket.to(socket.handshake.address).emit("change mode syn", {target:{className:"off"}})
+            socket.to(userRoom).emit("change mode syn", {target:{className:"off"}})
         } else{
-            socket.to(socket.handshake.address).emit("change mode syn", {target:{className:"on"}})
+            socket.to(userRoom).emit("change mode syn", {target:{className:"on"}})
         }
         
     });
 
     socket.on("update file", () => {
-        socket.to(socket.handshake.address).emit("update user list");
+        socket.to(userRoom).emit("update user list");
     })
 
 
