@@ -7,11 +7,16 @@ const socketChild = (socket) => {
     let room;
     let userRoom;
     socket.on("start to connect", (msg) => {
-        room = msg
+        room = msg.projectID;
         socket.join(room)
-        socket.join(socket.handshake.address)
         socket.emit("join room", `join room ${msg}`)
         socket.to(room).emit("update or not", "any update?")
+        socket.join(socket.handshake.address);
+        jwt.verify(msg.token, JWTKEY, (err, authData) => {
+            userRoom = authData.email + "ifjiejfi"
+            socket.join(userRoom);
+        })
+
     })
     socket.on("the latest status", (result) => {
         socket.to(room).emit("update the content", result)
@@ -19,6 +24,7 @@ const socketChild = (socket) => {
     socket.on("new project connected", (msg) => {
         jwt.verify(msg.token, JWTKEY, (err, authData) => {
             userRoom = authData.email + "ifjiejfi"
+            console.log("join")
             socket.join(userRoom);
         })
         

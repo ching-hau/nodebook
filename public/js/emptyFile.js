@@ -424,11 +424,7 @@ function addEventToExistedItems(){
 }
 
 // Socket General function
-const socketEmitEvent = (event, obj) => {
-    if(projectID){
-        socket.emit(event, obj)
-    }
-}
+
 const updateStatus = () => {
     const titleHTML = document.querySelector("#title").innerHTML;
     const contentHTML = document.querySelector("#allMovable").innerHTML;
@@ -598,16 +594,23 @@ if(projectID){
 }
 
 
-socketEmitEvent("start to connect", projectID);
 const socketUpdate = () => {
     let currentContent = updateStatus();
-    socketEmitEvent("the latest status", currentContent)
+    if(projectID){
+        socket.emit("the latest status", currentContent)
+    }
+    // socketEmitEvent("the latest status", currentContent)
 }
 
 socket.on("update user list", () => {
     window.location.reload();
 })
 
-if(!projectID){
+
+
+
+if(projectID){
+    socket.emit("start to connect", {projectID:projectID, token: localStorage.getItem("pcToken")})
+}else{
     socket.emit("new project connected", {token: localStorage.getItem("pcToken")})
 }
