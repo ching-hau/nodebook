@@ -3,7 +3,7 @@ const cp = require("./childProcessCon");
 const socketChild = (socket) => {
     let room;
     socket.on("start to connect", (msg) => {
-        console.log(socket.handshake.address);
+        console.log(socket);
         room = msg
         socket.join(room)
         socket.join(socket.handshake.address)
@@ -14,7 +14,7 @@ const socketChild = (socket) => {
         socket.to(room).emit("update the content", result)
     });
     socket.on("new project connected", () => {
-        console.log(socket.handshake.address)
+        console.log(socket)
         socket.join(socket.handshake.address);
     })
     socket.on("click to change mode", (msg) => {
