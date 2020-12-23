@@ -162,7 +162,7 @@ const transToForm = (e) => {
 
 const submitOriginalForm = (e) => {
     const textArea = document.querySelector("textarea");
-    const originalInputForm = document.querySelector("#inputForm")
+    const originalInputForm = document.querySelector("#inputForm");
     e.preventDefault();
     let inputContent = textArea.value;
     if(inputContent != ""){

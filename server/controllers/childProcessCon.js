@@ -2,7 +2,6 @@ const childProcess = require('child_process');
 const fs = require('fs');
 const he = require('he');
 require("dotenv").config();
-const emmitter = require('events').EventEmitter();;
 
 
 
