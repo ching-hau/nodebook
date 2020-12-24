@@ -1,4 +1,3 @@
-
 if(!socket){
     const socket = io();
 }
@@ -43,9 +42,24 @@ const getCurrentStyle = () => {
 
 const dragStart = (e) => {
     let allItem = document.querySelectorAll(".movable");
+    const deleteBlock = document.querySelector(".deleteBlock");
+    deleteBlock.style = "display:block";
     let index = Array.from(allItem).indexOf(e.target);
     e.dataTransfer.setData('text/plain', index);
     dragData = index
+}
+
+const removeBottomLine = () => {
+    let lastDivP1 = document.querySelector(".currentPosition");
+    let lastDivP2 = document.querySelector(".currentLastPosition");
+    if(lastDivP1){
+        lastDivP1.classList.remove("currentPosition")
+    }
+    if(lastDivP2){
+        lastDivP2.classList.remove("currentLastPosition")
+    }
+    const deleteBlock = document.querySelector(".deleteBlock");
+    deleteBlock.style = "display:none";
 }
 
 const positionJudge = (e) => {
@@ -83,6 +97,12 @@ const dropped = (e) => {
     if(lastDivP2){
         lastDivP2.classList.remove("currentLastPosition")
     }
+    if(e.target.id === "deleteBlock"){
+        e.target.classList.remove("overTrash");
+        const deleteBlock = document.querySelector(".deleteBlock");
+        deleteBlock.style = "display:none";
+        return allItem[oldIndex].remove();
+    }
     if(newIndex == (allItem.length-1)){
         allSet.insertBefore(allItem[oldIndex], originalInputForm);
         allCodeResult.forEach(element => element.remove());
@@ -102,6 +122,9 @@ const dropped = (e) => {
         dragData="";
         socketUpdate();
     }
+    const deleteBlock = document.querySelector(".deleteBlock");
+    deleteBlock.style = "display:none";
+
 }
 
 const cancelDefault = (e) => {
@@ -189,6 +212,7 @@ const appendText = (text, insertPos) => {
     inputTextDiv.addEventListener('drop', dropped);
     inputTextDiv.addEventListener('dragenter', positionJudge);
     inputTextDiv.addEventListener('dragover', cancelDefault);
+    inputTextDiv.addEventListener("dragend", removeBottomLine);
     allInputDiv.insertBefore(inputTextDiv, insertPos);
 }
 
@@ -245,10 +269,6 @@ const addCodingClass = (inputTextP, motherDiv) => {
     const currentStatus = document.querySelector("label.active").innerText;
     if(currentStatus == "Coding"){
         inputTextP.classList.add("coding");
-        // here
-        // inputTextP.classList.add("inline-control");
-        // motherDiv.classList.add("form-group");
-        // done
         const codingButton = document.createElement("button");
         codingButton.classList.add("codingBtn");
         codingButton.classList.add("btn-outline-dark");
@@ -324,10 +344,8 @@ const insertWaiting = (e) => {
 
 
 const insertSocektResultSep = (result, index) => {
-    //ddd
     const waitingDiv = document.querySelector(".spinner-border");
     waitingDiv.remove();
-    //ddd
     const codingResultDiv = document.createElement("div");
     const currentCodingLi = document.querySelectorAll("p.coding")[index];
     const allInputDiv = document.querySelectorAll("#allMovable");
@@ -395,6 +413,7 @@ addEventToMultiItems("dragstart", allMovalbleDiv, dragStart);
 addEventToMultiItems("drop", allMovalbleDiv, dropped);
 addEventToMultiItems("dragenter", allMovalbleDiv, positionJudge);
 addEventToMultiItems("dragover", allMovalbleDiv, cancelDefault);
+addEventToMultiItems("dragend", allMovalbleDiv, removeBottomLine);
 addEventToMultiItems("click", allCodingBtn, socketRunCodeSep);
 
 
@@ -449,7 +468,7 @@ function changeClass(array, oldClass, newClass, mode){
 }
 
 
-
+// dark mode function
 const darkSwitch = (e) => {
     const otherItems = document.querySelector(".otherItems")
     const sun = document.querySelector(".sun");
@@ -541,6 +560,7 @@ const darkSwitch = (e) => {
         }
     }
 }
+
 const emitChangingMode = () => {
     const offDiv = document.querySelector(".off");
     if(offDiv){
@@ -599,14 +619,21 @@ const socketUpdate = () => {
     if(projectID){
         socket.emit("the latest status", currentContent)
     }
-    // socketEmitEvent("the latest status", currentContent)
 }
 
 socket.on("update user list", () => {
     window.location.reload();
 })
 
-
+socket.on("please het the new tokeb", () => {
+    Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: `Please sign in again`,
+        showConfirmButton: true,
+        timer: 1500
+    }).then(window.location.replace("/"))
+})
 
 
 if(projectID){
@@ -614,3 +641,21 @@ if(projectID){
 }else{
     socket.emit("new project connected", {token: localStorage.getItem("pcToken")})
 }
+
+
+const deleteBlock = document.querySelector(".deleteBlock");
+//deleteBlock.addEventListener('drop', dropped)
+const mag = (e) => {
+    e.target.classList.add("overTrash");
+}
+
+const shorten = (e) => {
+    e.target.classList.remove("overTrash");
+}
+
+//deleteBlock.addEventListener("dragstart", dragStart);
+deleteBlock.addEventListener("drop", dropped);
+deleteBlock.addEventListener("dragenter", mag);
+deleteBlock.addEventListener("dragleave", shorten);
+deleteBlock.addEventListener("dragover", cancelDefault);
+

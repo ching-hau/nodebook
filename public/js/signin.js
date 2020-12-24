@@ -1,11 +1,17 @@
 window.fbAsyncInit = () => {
     FB.init({
         appId : '412468749922091',
-        cookie: false,
+        cookie: true,
         xfbml: true, 
-        version: "v9.0"
+        version: "v9.0",
+        status: true
     });
+
 }
+
+// FB.getLoginStatus(function (response){
+//     console.log(response)
+// })
 
 function getCorrectConf(data){
     let config = {
@@ -123,3 +129,34 @@ function signUpBtn(){
     })  
 }
 
+
+
+
+// var longestCommonPrefix = function(strs) {
+//     let current;
+//     let final ="";
+//     if(strs.length === 1){
+//         return strs[0];
+//     }else if(strs[0]){
+//         for(let i = 0; i < strs[0].length; i ++){
+//             for(let j = i +2; j < strs[0].length; j ++){
+//                 let currentIndex = strs[0].slice(i, j);
+//                 for(let k = 1; k < strs.length; k++){
+//                     if(strs[k].indexOf(currentIndex) ==-1){
+//                         current = -1;
+//                         break;
+//                     }else{
+//                         current = currentIndex;
+//                     }
+//                 }
+//                     if(current !==1 && current.length > final.length){
+//                         final = current;
+//                     }
+//             }
+//         }
+//         return final;
+//     }else{
+//         return final;
+//     }
+
+// };

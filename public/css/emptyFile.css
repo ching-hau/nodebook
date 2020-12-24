@@ -154,3 +154,19 @@ textarea{
 /* .otherItems{
     color: rgba(0,0,0) !important; 
 } */
+
+.deleteDiv{
+    position: fixed;
+    top: 50%;
+    left: 20%;
+}
+
+
+#deleteBlock:hover{
+    height: 100px !important;
+}
+
+.overTrash{
+    height: 80px!important;
+}
+

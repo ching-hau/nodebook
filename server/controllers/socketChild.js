@@ -23,9 +23,14 @@ const socketChild = (socket) => {
     });
     socket.on("new project connected", (msg) => {
         jwt.verify(msg.token, JWTKEY, (err, authData) => {
-            userRoom = authData.email + "ifjiejfi"
-            console.log("join")
-            socket.join(userRoom);
+            if(err){
+                socket.emit("please get the new token")
+            }else{
+                userRoom = authData.email + "ifjiejfi"
+                console.log("join")
+                socket.join(userRoom);
+            }
+
         })
         
     })
