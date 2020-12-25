@@ -30,7 +30,7 @@ const runChildProcess = (path) => {
             workerProcess.kill();
             workerProcess.exitCode = 1;
             console.log(`${path} exit reject code: ${workerProcess.exitCode}`)
-            reject("This code run too long");
+            reject("This code cost too much time to complete.");
         }, 2000)
         workerProcess.on("exit", () => {
             console.log("exit the code successfully")

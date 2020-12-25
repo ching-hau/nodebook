@@ -85,7 +85,7 @@ router.post("/signin", async (req, res) => {
     if(userInfo.user == "na"){
         return res.status(200).json(userInfo);
     }else{
-        let pcToken = jwt.sign({userInfo}, JWTKEY, { expiresIn: 36000 });
+        let pcToken = jwt.sign({userInfo}, JWTKEY, { expiresIn: 3600});
         let {id, name, email } = userInfo.user;
         return res.status(200).json({
             stat: "success",

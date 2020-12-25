@@ -32,6 +32,7 @@ const verifyUser = async () => {
                 showConfirmButton: false,
                 timer: 1500
             })
+            localStorage.removeItem("pcToken");
             window.location.replace("/");
         }
         const filesDiv = document.querySelector(".userFiles");
@@ -60,6 +61,7 @@ const verifyUser = async () => {
             showConfirmButton: false,
             timer: 1500
         })
+        localStorage.removeItem("pcToken");
         window.location.replace("/")
     }
 }

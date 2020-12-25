@@ -49,9 +49,13 @@ const save_as = async () => {
         Swal.fire({
             position: "top-end",
             icon: "error",
-            title: `This file is not saved.`,
+            title: `Please sign in again.`,
             showConfirmButton: false,
             timer: 2000
+        })
+        .then(res => {
+            localStorage.removeItem("pcToken")
+            window.location.replace("/")
         })
     }
     

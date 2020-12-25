@@ -38,7 +38,9 @@ const getCurrentStyle = () => {
     return fontSize;
 }
 
-// Function for event
+const addNewPage = () => {
+    window.open("/userFile.html")
+}
 
 const dragStart = (e) => {
     let allItem = document.querySelectorAll(".movable");
@@ -584,10 +586,14 @@ socket.on("change mode syn", (e) => {
 
 
 const darkSwitchInput = document.querySelector("#darkMode");
-darkSwitchInput.parentNode.addEventListener("click", darkSwitch)
-darkSwitchInput.parentNode.addEventListener("click", emitChangingMode)
-
-
+// darkSwitchInput.parentNode.addEventListener("click", darkSwitch)
+// darkSwitchInput.parentNode.addEventListener("click", emitChangingMode)
+setTimeout(() => {
+    darkSwitchInput.parentNode.addEventListener("click", darkSwitch);
+    darkSwitchInput.parentNode.addEventListener("click", emitChangingMode)
+}, 1000)
+// darkSwitchInput.nextElementSibling.addEventListener("click", darkSwitch)
+// darkSwitchInput.nextElementSibling.addEventListener("click", emitChangingMode)
 
 
 

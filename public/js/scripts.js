@@ -55,4 +55,30 @@
     $(window).scroll(navbarCollapse);
 })(jQuery); // End of use strict
 
-console.log(localStorage.getItem("pcToken"))
+const logOut = () => {
+    localStorage.removeItem("pcToken");
+    window.location.replace("/")
+}
+
+
+
+const backArea = document.querySelector(".back");
+const goSigninSectionButton = document.querySelector(".goSigninSection");
+const goBackSection = document.querySelector(".goBackSection");
+const signArea = document.querySelector(".signArea");
+const signUpHead = document.querySelector(".signUpHead")
+if(localStorage.getItem("pcToken")){
+    backArea.style = "display: block;";
+    goBackSection.style = "display:inline block;";
+    signArea.style = "display: none;";
+    goSigninSectionButton.style = "display: none;";
+    signUpHead.href = "#back";
+    signUpHead.innerText = "back"
+}else{
+    backArea.style = "display: none;";
+    goBackSection.style = "display: none;";
+    signArea.style = "display: block;";
+    goSigninSectionButton.style = "display: inline block;";
+    signUpHead.href = "#contact";
+    signUpHead.innerText = "Sign-Up"
+}

@@ -41,7 +41,7 @@
                         <li class="nav-item"><a class="nav-link js-scroll-trigger force" href="#portfolio">Example</a></li>
                         <!-- <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">Process</a></li> -->
                         <li class="nav-item"><a class="nav-link js-scroll-trigger force" href="#team">Sponsor</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger force" href="#contact">Sign-Up</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger force signUpHead" href="#contact">Sign-Up</a></li>
                     </ul>
                 </div>
             </div>
@@ -59,7 +59,8 @@
                     </div>
                     
                 </div>
-                <a href="#contact" class="btn btn-dark">Get Started!</a>
+                <a href="#contact" class="btn btn-dark goSigninSection">Get Started!</a>
+                <a href="#back" class="btn btn-dark goBackSection">Go Back</a>
                 <div class="mastheadFontDown">Why not both?</div>
                 <!-- <div class="masthead-subheading">Welcome To Our Studio!</div>
                 <div class="masthead-heading text-uppercase">It's Nice To Meet You</div> -->
@@ -80,7 +81,7 @@
                             <img src="assets/img/services/serviceNote.png" height="125px">
                         </span>
                         <h4 class="my-3">Customize Notes</h4>
-                        <p class="text-muted">You can create notes in your distinct style. Youc can also drag your texts into different positions other than re-typing the contents</p>
+                        <p class="text-muted">You can create notes in your distinct style. Youc can also drag your texts into different positions other than re-typing the contents.</p>
                     </div>
                     <div class="col-md-4">
                         <span class="fa-stack fa-4x">
@@ -106,7 +107,7 @@
         <section class="page-section" id="portfolio">
             <div class="container">
                 <div class="text-center">
-                    <h2 class="section-heading text-uppercase">Example</h2>
+                    <h2 class="section-heading text-uppercase">Normal/Dark</h2>
                     <h3 class="section-subheading text-muted">Review/Edit your notes with eyes-friendly mode.</h3>
                 </div>
                 <div class="row">
@@ -116,7 +117,7 @@
                                 <img src="/img/normalDemo.png" height="250px">
                             <div class="portfolio-caption">
                                 <div class="portfolio-caption-heading">Normal Mode</div>
-                                <div class="portfolio-caption-subheading text-muted">You can see the introduction and mannual in tis note.</div>
+                                <div class="portfolio-caption-subheading text-muted">General format to edit your project.</div>
                             </div>
                         </div>
                     </div>
@@ -127,7 +128,7 @@
                                 <!-- <img class="img-fluid" src="assets/img/portfolio/02-thumbnail.jpg" alt="" /> -->
                             <div class="portfolio-caption">
                                 <div class="portfolio-caption-heading">Dark Mode</div>
-                                <div class="portfolio-caption-subheading text-muted">There are some simple functions for you to see how it works.</div>
+                                <div class="portfolio-caption-subheading text-muted">Open dark mode to make your eyes more comfortable. </div>
                             </div>
                         </div>
                     </div>
@@ -172,11 +173,14 @@
         </section>
         <hr size="8px" width="100%">
         <!-- Contact-->
-        <section class="page-section" id="contact">
+        <section class="page-section signArea" id="contact">
+
             <div class="container">
                 <div class="text-center">
                     <h2 class="section-heading text-uppercase">SIGN-UP/ SIGN-IN</h2>
-                    <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+                    <h3 class="section-subheading text-muted">Register your own account to start your NODEBOOK!</h3>
+                    <!-- <a href="/userFile.html" class="btn btn-dark backButton"style="display: none;">Back to your personal page!</a> -->
+
                 </div>
                 <div class="row text-center">
                     <div class="main col-md-6">
@@ -237,6 +241,21 @@
                     </div>
                 </div>
 
+            </div>
+        </section>
+        <section class="page-section back" id="back">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-heading text-uppercase">Go Back</h2>
+                    <div class="row text-center">
+                        <div class="col-md-6">
+                            <a href="/userFile.html" class="btn btn-dark backButton">Back to your personal page!</a>
+                        </div>
+                        <div class="col-md-6">
+                            <a class="btn btn-dark logOutButton" onclick="logOut();">Log Out</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
         <hr size="8px" width="100%">
