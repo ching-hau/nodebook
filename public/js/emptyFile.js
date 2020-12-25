@@ -103,7 +103,9 @@ const dropped = (e) => {
         e.target.classList.remove("overTrash");
         const deleteBlock = document.querySelector(".deleteBlock");
         deleteBlock.style = "display:none";
-        return allItem[oldIndex].remove();
+        allItem[oldIndex].remove();
+        socketUpdate();
+        return;
     }
     if(newIndex == (allItem.length-1)){
         allSet.insertBefore(allItem[oldIndex], originalInputForm);
