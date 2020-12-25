@@ -136,6 +136,7 @@ const cancelDefault = (e) => {
 const autoResize = (e) => {
     let height = e.target.scrollHeight;
     // e.target.style.height = 'auto';
+    console.log(height)
     e.target.style.height = height + 'px';
 }
 
@@ -393,14 +394,14 @@ const addEventToMultiItems = (action, elements, func) => {
 
 
 const originalInputForm = document.querySelector("#inputForm")
-const textArea = document.querySelector("textarea");
 const allInputDiv = document.querySelector("#allMovable");
 const titleInputForm = document.querySelector("#titleForm");
 const childTitleDiv = document.querySelector("#childTitle");
+const textArea = document.querySelector("textarea");
 
-
-addEventToSingleItem("input", textArea, autoResize);
 addEventToSingleItem("click", textArea, getCorrectFormat);
+addEventToSingleItem("click", textArea, autoResize);
+addEventToSingleItem("input", textArea, autoResize);
 addEventToSingleItem("submit", titleInputForm, modifyTitle);
 addEventToSingleItem("click", allInputDiv, transToForm);
 addEventToSingleItem("submit", originalInputForm, submitOriginalForm);
