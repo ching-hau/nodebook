@@ -91,9 +91,11 @@ async function cancelPublic(){
             title: `You have canceled sharing this file to public.`,
             showConfirmButton: false,
             timer: 1500
+        }).then(res => {
+            socket.emit("update file");
+            window.location.reload();
         })
 
-        window.location.reload();
     }else{
         //alert("Something Wrong!")
         Swal.fire({
@@ -126,8 +128,11 @@ async function shareToPublic(){
             title: `You have shared this file to public.`,
             showConfirmButton: false,
             timer: 1500
+        }).then(res => {
+            socket.emit("update file");
+            window.location.reload();
         })
-        window.location.reload();
+
     }else{
         //alert("Something Wrong!");
         Swal.fire({
