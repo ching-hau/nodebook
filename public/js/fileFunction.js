@@ -20,8 +20,6 @@ function screenshot() {
             element.setAttribute("data-html2canvas-ignore", true);
         })
     }
-    // let initialposition = 0;
-    //let pdfFile = new jspdf.jsPDF('', 'pt', "a4");
     window.scrollTo(0,0);
     canvas(content, {
         allowTaint: true,
@@ -60,7 +58,6 @@ function copyURL(){
     let input = document.querySelector("#pURL");
     input.select();
     document.execCommand("copy");
-    //alert("copy successfully");
     Swal.fire({
         position: "top-end",
         icon: "success",
@@ -84,7 +81,6 @@ async function cancelPublic(){
     }
     let result = await fetch(url, config).then(res => {return res.json()});
     if(result.stat == "success"){
-        //alert("You have canceled sharing this file to public.");
         Swal.fire({
             position: "top-end",
             icon: "success",
@@ -97,7 +93,6 @@ async function cancelPublic(){
         })
 
     }else{
-        //alert("Something Wrong!")
         Swal.fire({
             position: "top-end",
             icon: "error",
@@ -121,7 +116,6 @@ async function shareToPublic(){
     }
     let result = await fetch(url, config).then(res => {return res.json()});
     if(result.stat == "success"){
-        //alert("You have shared this file to public.");
         Swal.fire({
             position: "top-end",
             icon: "success",
@@ -134,7 +128,6 @@ async function shareToPublic(){
         })
 
     }else{
-        //alert("Something Wrong!");
         Swal.fire({
             position: "top-end",
             icon: "error",
@@ -145,14 +138,3 @@ async function shareToPublic(){
     }
 }
 
-
-
-// var txtFile = "new.js";
-// var file = new File();
-// var str = "My string of text";
-
-// file.open("w"); // open file with write access
-// file.writeln("First line of text");
-// file.writeln("Second line of text " + str);
-// file.write(str);
-// file.close();

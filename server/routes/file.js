@@ -9,7 +9,6 @@ const JWTKEY = process.env.JWT_KEY
 
 
 router.post("/saveas", verifyToken, async (req, res) => {
-    //let data = req.body
     let data = {
         "user_email":req.userMail,
         "file_name": req.body.file_name,
@@ -57,17 +56,6 @@ router.post("/save", verifyToken, async (req, res) => {
 
 })
 
-router.get("/files2", async (req, res) => {
-    const {id}=req.query;
-    let result = await fileDB.getFileById(id);
-    let resultConf = {
-        project_id: id,
-        user_mail: result[0].user_email,
-        file_name: result[0].file_name,
-        file_content: result[0].file_content
-    }
-    res.status(200).send(resultConf)
-});
 
 router.post("/files", verifyToken, async (req, res) => {
     const {id}=req.query;
@@ -93,10 +81,6 @@ router.get("/allProjectsId", verifyToken, async (req, res) => {
     let allId = await fileDB.getAllProjectIdByUser(userMail);
     res.status(200).send(allId);
 });
-
-
-
-
 
 router.post("/user", verifyToken, async(req, res) => {
     let userMail = req.userMail;
@@ -188,9 +172,6 @@ router.post("/cancelPublic", async (req, res) => {
     }
 })
 
-
-
-
 function verifyToken (req, res, next) {
     let {pctoken} = req.headers;
     jwt.verify(pctoken, JWTKEY, (err, authData) => {
@@ -204,7 +185,4 @@ function verifyToken (req, res, next) {
     });
 }
 
-
 module.exports = router;
-
-

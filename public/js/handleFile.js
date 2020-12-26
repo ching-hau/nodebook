@@ -93,7 +93,6 @@ const save = async () => {
         }
         const result = await fetch("/file/save", config).then(res=> {return res.json()});
         localStorage.setItem(result.file_name, JSON.stringify(result))
-        //alert(`${title} was saved.`)
         Swal.fire({
             position: "top-end",
             icon: "success",
@@ -102,7 +101,6 @@ const save = async () => {
             timer: 1500
         }).then(socket.emit("update file"))
     }else{
-        //alert("You have never saved this file. Please save this file as the new one.")
         Swal.fire({
             position: "top-end",
             icon: "error",
@@ -128,7 +126,6 @@ const deleteFile = async () => {
     }
     const deleteResult = await fetch("/file/delete", config).then(res => {return res.json()});
     if(deleteResult.stat === "success"){
-        //alert(`${title} has been deleted.`);
         Swal.fire({
             position: "top-end",
             icon: "success",
@@ -174,7 +171,6 @@ const deleteAll = async () => {
                 }
             })
             .then(socket.emit("update file"))
-            //Swal.fire('Clear!!!', '', 'success')
         } 
     })
 }
