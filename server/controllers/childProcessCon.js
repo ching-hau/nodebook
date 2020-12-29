@@ -3,8 +3,6 @@ const fs = require('fs');
 const he = require('he');
 require("dotenv").config();
 
-
-
 function extractError(err){
     let lines = err.split('\n')
     if(lines[1] == "<--- Last few GCs --->"){
@@ -15,10 +13,6 @@ function extractError(err){
         return lines[1]+"\n"+lines[4];
     }
 }
-
-// let path = `/Users/nickchu/Desktop/nodebookCode/aaa.js`
-
-// runTestChidProcess(path).then(result => {console.log(result)})
 
 const runChildProcess = (path) => {
     return new Promise((resolve, reject) => {

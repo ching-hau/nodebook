@@ -1,4 +1,3 @@
-const { CONNREFUSED } = require("dns");
 const dbConfig = require("./dbConfig")
 const con = dbConfig.sqlCon;
 
@@ -176,10 +175,6 @@ const checkPublicFile = (id) => {
         })
     })
 }
-
-
-//cancelPublicShare(37).then(result => console.log(result)).catch(err => {console.log(err)})
-//shareToPublic(31).then(result => console.log(result)).catch(err => {console.log(err)})
 
 module.exports = {
     saveNewFileContent,

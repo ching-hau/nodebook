@@ -26,7 +26,6 @@ const checkThirdPartSignInStatus = async (req) => {
         let updateDBResult = await signDB.checkUserExistence(userInfo.email)
         payLoad = updateDBResult[0];
     }
-    console.log(payLoad)
     return {stat:"Welcome to programing chatting!", user: payLoad}
 }
 
