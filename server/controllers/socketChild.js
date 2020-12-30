@@ -1,68 +1,78 @@
 const cp = require("./childProcessCon");
 const jwt = require('jsonwebtoken');
-const JWTKEY = process.env.JWT_KEY
+const JWTKEY = process.env.JWT_KEY;
+const ROOMKEY = process.env.ROOMKEY;
 
+const writeContentToFile = async (file, content) => {
+    let filePath = process.env.PROCESS_PATH +`${file}.js`;
+    await cp.writeFile(content, filePath);
+    return filePath;
+}
+
+const summarizeResult = async (file1Path, file2Path) => {
+    let file1Result = cp.runChildProcess(file1Path);
+    let file2Result = cp.runChildProcess(file2Path);
+    let allResult = await Promise.all([file1Result, file2Result]);
+    if(allResult[1]){
+        return allResult[1].replace(allResult[0],"").toString();
+    }else{
+        return allResult[0].toString();
+    }
+}
 
 const socketChild = (socket) => {
 
-    // This part is to show content synchronously in the same computer. 
-    let room;
-    let userRoom;
+    let roomByProjectId;
+    let roomByUser;
+
     socket.on("start to connect", (msg) => {
-        room = msg.projectID;
-        socket.join(room)
-        socket.emit("join room", `join room ${msg}`)
-        socket.to(room).emit("update or not", "any update?")
-        socket.join(socket.handshake.address);
+        roomByProjectId = msg.projectID;
+        socket.join(roomByProjectId);
+        socket.emit("join room", `join room ${msg}`);
+        socket.to(roomByProjectId).emit("update or not", "any update?");
+
+
         jwt.verify(msg.token, JWTKEY, (err, authData) => {
-            userRoom = authData.email + "appworks"
-            socket.join(userRoom);
+            roomByUser = authData.email + ROOMKEY;
+            socket.join(roomByUser);
         });
     });
+
     socket.on("the latest status", (result) => {
-        socket.to(room).emit("update the content", result)
+        socket.to(roomByProjectId).emit("update the content", result)
     });
+
     socket.on("new project connected", (msg) => {
         jwt.verify(msg.token, JWTKEY, (err, authData) => {
             if(err){
                 socket.emit("please get the new token")
             }else{
-                userRoom = authData.email + "ifjiejfi"
+                roomByUser = authData.email + ROOMKEY
                 console.log("join")
-                socket.join(userRoom);
+                socket.join(roomByUser);
             }
         });
     });
+
     socket.on("click to change mode", (msg) => {
         if(msg === "normal"){
-            socket.to(userRoom).emit("change mode syn", {target:{className:"off"}})
+            socket.to(roomByUser).emit("change mode syn", {target:{className:"off"}})
         } else{
-            socket.to(userRoom).emit("change mode syn", {target:{className:"on"}})
+            socket.to(roomByUser).emit("change mode syn", {target:{className:"on"}})
         }
     });
+
     socket.on("update file", () => {
-        socket.to(userRoom).emit("update user list");
+        socket.to(roomByUser).emit("update user list");
     })
 
-    // This part is to transfer the code result. 
     socket.on("send code", async (data) => {
         let {content1, content2, file1, file2, index} = data;
-        let path1 = process.env.PROCESS_PATH +`${file1}.js`;
-        let path2 = process.env.PROCESS_PATH +`${file2}.js`;
-        await cp.writeFile(content1, path1);
-        await cp.writeFile(content2, path2);
+        let file1Path = await writeContentToFile(file1, content1);
+        let file2Path = await writeContentToFile(file2, content2);
         try{
-            let promise1 = cp.runChildProcess(path1);
-            let promise2 = cp.runChildProcess(path2);
-            let allResult = await Promise.all([promise1, promise2]);
-            let result;
-            if(allResult[1]){
-                result = allResult[1].replace(allResult[0],"").toString();
-            }else{
-                result = allResult[0].toString();
-            }
-            console.log(result)
-            socket.emit("send reult", {result: result, index: index})
+            let summarizedResult = await summarizeResult(file1Path, file2Path);
+            socket.emit("send reult", {result: summarizedResult, index: index})
         } catch(err){
             socket.emit("send reult", {result: err, index: index})
         }
