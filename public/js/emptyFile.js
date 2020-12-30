@@ -3,7 +3,6 @@ if (!socket) {
 }
 let dragData
 
-// function for event
 const insertAfter = (newNode, existingNode) => {
   existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling)
 }
@@ -101,7 +100,6 @@ const dropped = (e) => {
     deleteBlock.style = 'display:none'
     allItem[oldIndex].remove()
     socketUpdate()
-
     return
   }
   if (newIndex === allItem.length - 1) {
@@ -135,7 +133,6 @@ const cancelDefault = (e) => {
 
 const autoResize = (e) => {
   const height = e.target.scrollHeight
-  // e.target.style.height = 'auto';
   console.log(height)
   e.target.style.height = `${height}px`
 }
@@ -147,7 +144,6 @@ const getCurrentDiv = (allItem, e) => {
       currentDiv = element
     }
   })
-
   return currentDiv
 }
 
@@ -197,7 +193,6 @@ const submitOriginalForm = (e) => {
   }
 }
 
-// create Element
 const appendText = (text, insertPos) => {
   const allInputDiv = document.querySelector('#allMovable')
   const inputTextDiv = document.createElement('div')
@@ -331,7 +326,6 @@ const getCurrentCode = (e) => {
     index: currentBtnIndex
   }
 }
-/// ///////
 const insertWaiting = (e) => {
   const waitingDiv = document.createElement('div')
   const waitingSpan = document.createElement('span')
@@ -347,12 +341,6 @@ const insertSocektResultSep = (result, index) => {
   waitingDiv.remove()
   const codingResultDiv = document.createElement('div')
   const currentCodingLi = document.querySelectorAll('p.coding')[index]
-  const allInputDiv = document.querySelectorAll('#allMovable')
-  allInputDiv.forEach((element) => {
-    if (element.contains(currentCodingLi)) {
-      currentDiv = element
-    }
-  })
   codingResultDiv.id = 'sepResult'
   codingResultDiv.classList.add('text-left')
   codingResultDiv.innerText = `[Output]:\n${result}`
@@ -438,8 +426,6 @@ function addEventToExistedItems () {
   addEventToMultiItems('click', allCodingBtn, socketRunCodeSep)
 }
 
-// socket General function
-
 const updateStatus = () => {
   const titleHTML = document.querySelector('#title').innerHTML
   const contentHTML = document.querySelector('#allMovable').innerHTML
@@ -466,7 +452,6 @@ function changeClass (array, oldClass, newClass, mode) {
   })
 }
 
-// dark mode function
 const darkSwitch = (e) => {
   const otherItems = document.querySelector('.otherItems')
   const sun = document.querySelector('.sun')
@@ -570,30 +555,20 @@ const emitChangingMode = () => {
 socket.on('change mode syn', (e) => {
   darkSwitch(e)
   const darkModeBtnMother = document.querySelector('#darkMode').parentNode
-  if (e.target.className.indexOf('off') != -1 && darkModeBtnMother.className.indexOf('off') != -1) {
+  if (e.target.className.indexOf('off') !== -1 && darkModeBtnMother.className.indexOf('off') != -1) {
     darkModeBtnMother.classList.remove('off')
-  } else if (e.target.className.indexOf('off') == -1 && darkModeBtnMother.className.indexOf('off') == -1) {
+  } else if (e.target.className.indexOf('off') === -1 && darkModeBtnMother.className.indexOf('off') == -1) {
     darkModeBtnMother.classList.add('off')
   }
 })
 
 const darkSwitchInput = document.querySelector('#darkMode')
 
-/*
- * darkSwitchInput.parentNode.addEventListener("click", darkSwitch)
- * darkSwitchInput.parentNode.addEventListener("click", emitChangingMode)
- */
 setTimeout(() => {
   darkSwitchInput.parentNode.addEventListener('click', darkSwitch)
   darkSwitchInput.parentNode.addEventListener('click', emitChangingMode)
 }, 1000)
 
-/*
- * darkSwitchInput.nextElementSibling.addEventListener("click", darkSwitch)
- * darkSwitchInput.nextElementSibling.addEventListener("click", emitChangingMode)
- */
-
-// socket on event
 if (projectID) {
   socket.on('join room', (msg) => {
   })
@@ -647,7 +622,6 @@ if (projectID) {
 }
 
 const deleteBlock = document.querySelector('.deleteBlock')
-// deleteBlock.addEventListener('drop', dropped)
 const mag = (e) => {
   e.target.classList.add('overTrash')
 }
@@ -656,7 +630,6 @@ const shorten = (e) => {
   e.target.classList.remove('overTrash')
 }
 
-// deleteBlock.addEventListener("dragstart", dragStart);
 deleteBlock.addEventListener('drop', dropped)
 deleteBlock.addEventListener('dragenter', mag)
 deleteBlock.addEventListener('dragleave', shorten)

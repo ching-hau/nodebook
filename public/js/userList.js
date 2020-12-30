@@ -23,7 +23,7 @@ const verifyUser = async () => {
       }
     }
     const allIDs = await fetch('/file/user', config).then((result) => result.json())
-    if (allIDs.stat == 'fail token') {
+    if (allIDs.stat === 'fail token') {
       // alert("Please sign in again.");
       Swal.fire({
         position: 'top-end',

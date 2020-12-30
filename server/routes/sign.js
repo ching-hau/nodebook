@@ -2,76 +2,11 @@ const express = require('express')
 const router = express.Router()
 const signDB = require('../db/signDB')
 const jwt = require('jsonwebtoken')
-const fetch = require('node-fetch')
+const userSign = require('../controllers/userSign')
 const crypto = require('crypto')
 require('dotenv').config()
 
 const JWTKEY = process.env.JWT_KEY
-
-const checkThirdPartSignInStatus = async (req) => {
-  const { group, access_token } = req.body
-  let url
-  if (group === 'facebook') {
-    url = `https://graph.facebook.com/me?fields=id,name,email&access_token=${access_token}`
-  } else if (group === 'google') {
-    url = `https://oauth2.googleapis.com/tokeninfo?id_token=${access_token}`
-  }
-  const userInfo = await fetch(url).then((result) => result.json())
-  const dbResult = await signDB.checkUserExistence(userInfo.email)
-  let payLoad
-  if (dbResult.length > 0) {
-    payLoad = dbResult[0]
-  } else {
-    await signDB.createUser([
-      userInfo.name,
-      userInfo.email,
-      'na',
-      group
-    ])
-    const updateDBResult = await signDB.checkUserExistence(userInfo.email)
-    payLoad = updateDBResult[0]
-  }
-
-  return {
-    stat: 'Welcome to programing chatting!',
-    user: payLoad
-  }
-}
-
-const checkNativeSignIn = async (req) => {
-  const { email, password } = req.body
-  const userInfo = await signDB.checkUserExistence(email)
-  const hash = crypto.createHash('sha256')
-  hash.update(password)
-  const encpPwd = hash.digest('hex')
-  console.log(userInfo[0].password)
-  console.log(encpPwd)
-  if (userInfo.length === 0) {
-    return {
-      stat: 'Please sign up first!',
-      user: 'na'
-    }
-  } else if (userInfo[0].login === 'facebook') {
-    console.log('facebook')
-
-    return {
-      stat: 'This mail is registered through facebook!',
-      user: 'na'
-    }
-  } else if (userInfo[0].password === encpPwd) {
-    console.log('good')
-
-    return {
-      stat: 'Welcome to programing chatting!',
-      user: userInfo[0]
-    }
-  }
-
-  return {
-    stat: 'Wrong Password!',
-    user: 'na'
-  }
-}
 
 router.post('/signup', async (req, res) => {
   const { name, email, password } = req.body
@@ -93,37 +28,24 @@ router.post('/signup', async (req, res) => {
 })
 
 router.post('/signin', async (req, res) => {
-  let userInfo
-  const { group } = req.body
-  console.log(req.body)
-  if (group === 'facebook' || group === 'google') {
-    userInfo = await checkThirdPartSignInStatus(req)
-    console.log('here')
-  } else if (group === 'native') {
-    userInfo = await checkNativeSignIn(req)
-    console.log('native')
-  } else {
-    userInfo = {
-      stat: 'na',
-      user: 'na'
-    }
-  }
-
+  const userInfo = await userSign.getUserInfo(req)
   if (userInfo.user === 'na') {
     return res.status(200).json(userInfo)
+  } else {
+    const pcToken = jwt.sign({ userInfo }, JWTKEY, { expiresIn: 36000 })
+    const { id, name, email } = userInfo.user
+    console.log('here!!!')
+    console.log(userInfo)
+    return res.status(200).json({
+      stat: 'success',
+      user: {
+        id: id,
+        name: name,
+        email: email
+      },
+      pcToken: pcToken
+    })
   }
-  const pcToken = jwt.sign({ userInfo }, JWTKEY, { expiresIn: 36000 })
-  const { id, name, email } = userInfo.user
-
-  return res.status(200).json({
-    stat: 'success',
-    user: {
-      id,
-      name,
-      email
-    },
-    pcToken
-  })
 })
 
 module.exports = router

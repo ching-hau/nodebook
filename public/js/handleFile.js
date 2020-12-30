@@ -9,7 +9,6 @@ const save_as = async () => {
       showConfirmButton: false,
       timer: 1500
     })
-
     return
   }
   const title = titleTextDiv.innerText
@@ -27,6 +26,7 @@ const save_as = async () => {
       .replace(/102/g, '211')
   }
   const result = await fetch('/file/saveas', config).then((res) => res.json())
+  console.log(result)
   if (result.stat === 'repeated file name') {
     Swal.fire({
       position: 'top-end',
@@ -35,7 +35,7 @@ const save_as = async () => {
       showConfirmButton: false,
       timer: 1500
     })
-  } else if (result.stat == 'success') {
+  } else if (result.stat === 'success') {
     localStorage.setItem(result.file_name, JSON.stringify(result))
     Swal.fire({
       position: 'top-end',
@@ -57,7 +57,7 @@ const save_as = async () => {
     })
       .then((res) => {
         localStorage.removeItem('pcToken')
-        window.location.replace('/')
+        //window.location.replace('/')
       })
   }
 }
@@ -165,7 +165,7 @@ const deleteAll = async () => {
       fetch('/file/deleteAll', config)
         .then((result) => result.json())
         .then((result) => {
-          if (result.stat == 'success') {
+          if (result.stat === 'success') {
             Swal.fire('Clear!!!', '', 'success')
             const allDeletedFieA = document.querySelectorAll('.trashList')
             allDeletedFieA.forEach((element) => {

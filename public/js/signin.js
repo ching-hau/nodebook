@@ -8,28 +8,20 @@ window.fbAsyncInit = () => {
   })
 }
 
-/*
- * fB.getLoginStatus(function (response){
- * console.log(response)
- * })
- */
-
 function getCorrectConf (data) {
   const config = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
   }
-
   return config
 }
 
 function setToken (result) {
-  if (result.stat = 'success') {
+  if (result.stat === 'success') {
     const { pcToken } = result
     window.localStorage.setItem('pcToken', pcToken)
     window.location.replace('/userFile.html')
-    console.log(result)
   }
 }
 
@@ -116,13 +108,13 @@ function signUpBtn () {
   fetch('/sign/signup', getCorrectConf(data))
     .then((res) => res.json())
     .then((result) => {
-      if (result.stat == 'Welcome to programing chatting!') {
+      if (result.stat === 'Welcome to programing chatting!') {
         console.log(result)
         // alert("You can log in now!!!");
         Swal.fire({
           position: 'top-end',
           icon: 'success',
-          title: 'Welcome to programing chatting!',
+          title: 'Welcome to NODEBOOK!',
           text: 'You can log in now.',
           showConfirmButton: false,
           timer: 1500
@@ -130,34 +122,3 @@ function signUpBtn () {
       }
     })
 }
-
-/*
- * var longestCommonPrefix = function(strs) {
- * let current;
- * let final ="";
- * if(strs.length === 1){
- * return strs[0];
- * }else if(strs[0]){
- * for(let i = 0; i < strs[0].length; i ++){
- * for(let j = i +2; j < strs[0].length; j ++){
- * let currentIndex = strs[0].slice(i, j);
- * for(let k = 1; k < strs.length; k++){
- * if(strs[k].indexOf(currentIndex) ==-1){
- * current = -1;
- * break;
- * }else{
- * current = currentIndex;
- * }
- * }
- * if(current !==1 && current.length > final.length){
- * final = current;
- * }
- * }
- * }
- * return final;
- * }else{
- * return final;
- * }
- */
-
-// };

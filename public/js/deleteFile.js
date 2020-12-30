@@ -48,7 +48,7 @@ const recover = async () => {
 
 const deleteForever = async () => {
   const word = prompt('Please enter " bye-bye " to delete this file.')
-  if (word == 'bye-bye') {
+  if (word === 'bye-bye') {
     const title = document.querySelector('#title').innerText
     console.log(title)
     const data = { projectID }

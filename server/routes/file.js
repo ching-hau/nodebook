@@ -18,14 +18,17 @@ router.post('/saveas', verifyToken, async (req, res) => {
     file_name: data.file_name,
     file_content: data.file_content
   }
+  console.log(resultConf)
   try {
     const insertResult = await fileDB.saveNewFileContent(data)
+    console.log(insertResult)
     if (insertResult.stat === 'success') {
       resultConf.project_id = insertResult.project_id
       resultConf.stat = 'success'
       res.status(200).send(resultConf)
     }
   } catch (err) {
+    console.log(err)
     resultConf.stat = err.stat
     res.status(200).send(resultConf)
   }
@@ -174,7 +177,9 @@ function verifyToken (req, res, next) {
     if (err) {
       res.status(200).send({ stat: 'fail token' })
     } else {
-      req.userMail = authData.userInfo.user.email
+      const verifiedMail = authData.userInfo.user.email
+      console.log(authData)
+      req.userMail = verifiedMail
       next()
     }
   })

@@ -16,11 +16,9 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 const signRouter = require('./server/routes/sign')
-const childprocessRouter = require('./server/routes/childprocess')
 const fileRouter = require('./server/routes/file')
 
 app.use('/sign', signRouter)
-app.use('/childprocess', childprocessRouter)
 app.use('/file', fileRouter)
 
 server.listen(port, () => {

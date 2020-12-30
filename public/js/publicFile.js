@@ -5,7 +5,7 @@ const generatePublicFile = async () => {
   const url = `/file/public?publicFile=${publicfileId}`
   const rawData = await fetch(url).then((res) => res.json())
   const motherDiv = document.querySelector('#motherDiv')
-  if (rawData.stat == 'success') {
+  if (rawData.stat === 'success') {
     console.log('here')
     motherDiv.innerHTML = rawData.file_content
     const allForm = document.querySelectorAll('form')
@@ -34,7 +34,7 @@ const darkSwitch = (e) => {
   const home = document.querySelector('.home')
   const sun = document.querySelector('.sun')
   const moon = document.querySelector('.moon')
-  if (e.target.className.indexOf('off') == -1) {
+  if (e.target.className.indexOf('off') === -1) {
     totalDiv.style.backgroundColor = 'black'
     childTitleDiv.style.color = 'white'
     sideBar.classList.remove('bg-light')
