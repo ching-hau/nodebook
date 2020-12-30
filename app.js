@@ -1,36 +1,28 @@
-const express = require("express");
-const app = express();
-require("dotenv").config();
+const express = require('express')
+const app = express()
+require('dotenv').config()
 
-const server = require('http').createServer(app);
-const io = require('socket.io')(server);
-const dbConfig = require("./server/db/dbConfig");
-const bodyParser= require('body-parser');
+const server = require('http').createServer(app)
+const io = require('socket.io')(server)
+const bodyParser = require('body-parser')
 
-const socketChild = require('./server/controllers/socketChild');
-//const socketChat = require('./server/controllers/chatting');
-io.on('connection', socketChild);
-//io.on('connection', socketChat);
+const socketChild = require('./server/controllers/socketChild')
+io.on('connection', socketChild)
 
-
-const con = dbConfig.sqlCon;
 const port = process.env.PORT
 
-app.use(express.static("public"));
-app.use(bodyParser.urlencoded({extended : true}));
-app.use(bodyParser.json());
+app.use(express.static('public'))
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 
-const signRouter = require("./server/routes/sign")
-const childprocessRouter = require("./server/routes/childprocess")
-const fileRouter = require("./server/routes/file")
+const signRouter = require('./server/routes/sign')
+const childprocessRouter = require('./server/routes/childprocess')
+const fileRouter = require('./server/routes/file')
 
+app.use('/sign', signRouter)
+app.use('/childprocess', childprocessRouter)
+app.use('/file', fileRouter)
 
-app.use("/sign", signRouter);
-app.use("/childprocess", childprocessRouter);
-app.use("/file", fileRouter);
-
-//io.on('connection', socketListener);
 server.listen(port, () => {
-    console.log(`NODEBOOK is running on port ${port}!`)
-});
-
+  console.log(`NODEBOOK is running on port ${port}!`)
+})
