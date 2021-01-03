@@ -7,7 +7,6 @@ const { ROOMKEY } = process.env
 const writeContentToFile = async (file, content) => {
   const filePath = `${process.env.PROCESS_PATH}${file}.js`
   await cp.writeFile(content, filePath)
-
   return filePath
 }
 
@@ -21,7 +20,6 @@ const summarizeResult = async (file1Path, file2Path) => {
   if (allResult[1]) {
     return allResult[1].replace(allResult[0], '').toString()
   }
-
   return allResult[0].toString()
 }
 

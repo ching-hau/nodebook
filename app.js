@@ -6,8 +6,8 @@ const server = require('http').createServer(app)
 const io = require('socket.io')(server)
 const bodyParser = require('body-parser')
 
-const socketChild = require('./server/controllers/socketChild')
-io.on('connection', socketChild)
+const socketAction = require('./server/controllers/socketaAction')
+io.on('connection', socketAction)
 
 const port = process.env.PORT
 
