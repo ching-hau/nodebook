@@ -1,4 +1,3 @@
-/* eslint-disable prefer-promise-reject-errors */
 const dbConfig = require('./dbConfig')
 const con = dbConfig.sqlCon
 
@@ -100,7 +99,6 @@ const getFileById = (id) => new Promise((resolve, reject) => {
 
 // ()
 const getAllProjectIdByUser = (user) => new Promise((resolve, reject) => {
-  // let sqlGetProjectById = "SELECT id, file_name FROM user_file WHERE user_email = (?) AND file_delete != 1";
   const sqlGetProjectById = 'SELECT id, file_name, file_delete FROM user_file WHERE user_email = (?);'
   con.query(sqlGetProjectById, user, (err, result, field) => {
     errFuncion(err, '', reject)

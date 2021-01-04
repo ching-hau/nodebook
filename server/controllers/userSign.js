@@ -101,5 +101,4 @@ const getUserInfo = async (req) => {
 module.exports = {
   verifyToken,
   getUserInfo
-
 }
