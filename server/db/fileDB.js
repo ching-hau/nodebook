@@ -97,7 +97,6 @@ const getFileById = (id) => new Promise((resolve, reject) => {
   })
 })
 
-// ()
 const getAllProjectIdByUser = (user) => new Promise((resolve, reject) => {
   const sqlGetProjectById = 'SELECT id, file_name, file_delete FROM user_file WHERE user_email = (?);'
   con.query(sqlGetProjectById, user, (err, result, field) => {
@@ -128,9 +127,16 @@ const updateFileById = (action, id) => new Promise((resolve, reject) => {
 
 const deleteFileById = (id) => new Promise((resolve, reject) => {
   const sqlDeleteFileById = 'DELETE FROM user_file WHERE id = (?);'
-  con.query(sqlDeleteFileById, id, (err, result, field) => {
+  const sqlDeletePublicFileById = 'DELETE FROM public_file WHERE file_id = (?)';
+  con.getConnection((err, connection) => {
     errFuncion(err, '', reject)
-    resolve({ stat: 'success' })
+    connection.query(sqlDeletePublicFileById, id, (err, result, field) => {
+      errFuncion(err, '', reject)
+      connection.query(sqlDeleteFileById, id, (err, result, field) =>{
+        errFuncion(err, '', reject)
+        resolve({ stat: 'success' })
+      })
+    })
   })
 })
 

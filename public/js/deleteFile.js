@@ -63,7 +63,7 @@ const deleteForever = async () => {
     const deleteForeverResult = await fetch('/file/deleteForever', config).then((res) => res.json())
     if (deleteForeverResult.stat == 'success') {
       alert(`${title} has beened deleted forever.`)
-      window.location.replace('/emptyFile.html')
+      window.location.replace('/userFile.html')
     } else {
       alert('Something wrong.')
     }

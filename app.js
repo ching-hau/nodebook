@@ -24,3 +24,5 @@ app.use('/file', fileRouter)
 server.listen(port, () => {
   console.log(`NODEBOOK is running on port ${port}!`)
 })
+
+module.exports = app;
