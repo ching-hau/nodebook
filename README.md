@@ -17,12 +17,19 @@ Test Password: test
 - Type the title as the project name and press enter to confirm
 - Set pure text in different size to customize your code
 - Choose Coding to type code in the coding block(grey background)
+
+
 **Run Code**
 ![](https://imgur.com/B38TALj.gif)
+- Same project would share the same space for variables
+- Empty output will return nothing after excution
+- Modifing the order of coding block will cancel original coding results
+
 **Synchronizaion and Dark Mode**
 ![](https://imgur.com/MeLt7XY.gif)
 - One project should have only one status even in different window locations
 - Review/Edit note in different style, normal or dark mode
+
 
 **Others**
 - Integral functions to manage files, such as save as, save, delete, recover
