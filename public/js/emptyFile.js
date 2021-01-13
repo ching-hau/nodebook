@@ -133,7 +133,6 @@ const cancelDefault = (e) => {
 
 const autoResize = (e) => {
   const height = e.target.scrollHeight
-  console.log(height)
   e.target.style.height = `${height}px`
 }
 
@@ -361,7 +360,7 @@ const socketRunCodeSep = (e) => {
   insertWaiting(e)
 }
 
-socket.on('send reult', (data) => {
+socket.on('send result', (data) => {
   const { result, index } = data
   insertSocektResultSep(result, index)
 })

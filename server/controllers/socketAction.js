@@ -23,6 +23,14 @@ const summarizeResult = async (file1Path, file2Path) => {
   return allResult[0].toString()
 }
 
+const checkCpkeyWord = (content) => {
+  if((content.indexOf('import') !== -1) | (content.indexOf('require') !== -1)) {
+    return true
+  } else {
+    return false
+  }
+}
+
 const socketAction = (socket) => {
   let roomByProjectId,
     roomByUser
@@ -72,16 +80,25 @@ const socketAction = (socket) => {
     const {
       content1, content2, file1, file2, index
     } = data
+    if((checkCpkeyWord(content1) === true) | (checkCpkeyWord(content2) === true)) {
+      console.log('have the keyword')
+      socket.emit('send result', {
+        result: 'Please try do not use the keyword, such as import, require...',
+        index
+      })
+      return
+    }
     const file1Path = await writeContentToFile(file1, content1)
     const file2Path = await writeContentToFile(file2, content2)
     try {
       const summarizedResult = await summarizeResult(file1Path, file2Path)
-      socket.emit('send reult', {
+      console.log(summarizedResult)
+      socket.emit('send result', {
         result: summarizedResult,
         index
       })
     } catch (err) {
-      socket.emit('send reult', {
+      socket.emit('send result', {
         result: err,
         index
       })
