@@ -100,6 +100,10 @@ function signUpBtn () {
   const signUpName = document.querySelector('#nameup').value
   const signUpMail = document.querySelector('#emailup').value
   const signUpPwd = document.querySelector('#passwordup').value
+  if(!signUpMail | !signUpMail | !signUpPwd) {
+    alert('You did not enter integral information.')
+    return
+  }
   const data = {
     name: signUpName,
     email: signUpMail,
